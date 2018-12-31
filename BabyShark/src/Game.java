@@ -1,85 +1,69 @@
-/*
-import javafx.application.*;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.event.EventHandler;
-import javafx.animation.*;
-
-*/
-
 import java.util.*;
 
-import javax.swing.JPanel;
-
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.event.*;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Label;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.animation.*;
 
 
 public class Game extends Application {
 
 	private Scene scene;
-	boolean moveUp, moveDown, moveRight, moveLeft;
-	private Player player = new Player();
-	
-	public void setKeys(Scene scene) {
-		EventHandler<KeyEvent> k = new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent key) {
-				if(key.getCode() == KeyCode.UP) {
-					moveUp = true;
-				} else {
-					moveUp = false;
-				}
-				
-				if(key.getCode() == KeyCode.DOWN) {
-					moveDown = true;
-				} else {
-					moveDown = false;
-				}
-				
-				if(key.getCode() == KeyCode.RIGHT) {
-					moveRight = true;
-				} else {
-					moveRight = false;
-				}
-				
-				if(key.getCode() == KeyCode.LEFT) {
-					moveLeft = true;
-				} else {
-					moveLeft = false;
-				}
-			}
-		};
-		
-		scene.setOnKeyPressed(k);
-		
-	}
+	private Player player;
+	private MediaPlayer music;
+	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
+
+	ArrayList<Fish> enemies = new ArrayList<Fish>();
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Frame frame = new Frame(primaryStage);
 		StackPane root = new StackPane();
 		Label score = new Label();
-		//score.setAlignment(TOP_RIGHT); 
+		score.setAlignment(Pos.TOP_RIGHT); 
 		score.setTextAlignment(TextAlignment.CENTER);
 		scene = new Scene(root, 800, 600, Color.ALICEBLUE);
-		setKeys(scene);
-		root.getChildren();
+		
+		Controller controller = new Controller();
+		player = new Player(controller);
+		controller.setKeys(scene);
+
+		root.getChildren().add(background);
+		root.getChildren().add(player);
+		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		AnimationTimer at = new AnimationTimer() {
+			@Override
+			public void handle(long time) {
+				double x = player.getX();
+				double y = player.getY();
+				
+				if(controller.moveUp) { y -= 1; }
+				if(controller.moveDown) { y += 1; }
+				if(controller.moveRight) { x += 1; }
+				if(controller.moveLeft) { y -= 1; }
+				
+			}
+		
+		};
+		
+		at.start();
 
+	}
+	
+	private void populateEnemies() {
+		
 	}
 	
 	public static void main(String[] args) {

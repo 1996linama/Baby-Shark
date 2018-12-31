@@ -1,3 +1,4 @@
+import javafx.scene.image.ImageView;
 
 public class Shark extends Fish {
 
@@ -5,6 +6,7 @@ public class Shark extends Fish {
 	private int frequency;
 	private int x;
 	private int y;
+	private ImageView fishSprite;
 	
 	public int getSpeed() {
 		return speed;
