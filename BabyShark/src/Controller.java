@@ -39,6 +39,7 @@ public class Controller {
 		};
 		
 		scene.setOnKeyPressed(k);
+		scene.setOnKeyReleased(k);
 		
 	}
 

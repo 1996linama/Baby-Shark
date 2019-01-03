@@ -19,7 +19,11 @@ public class Game extends Application {
 
 	private Scene scene;
 	private Player player;
+	private Group playerGroup;
 	private MediaPlayer music;
+	private StackPane root;
+	double x = 0;
+	double y = 0;
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
 
 	ArrayList<Fish> enemies = new ArrayList<Fish>();
@@ -27,42 +31,60 @@ public class Game extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Frame frame = new Frame(primaryStage);
-		StackPane root = new StackPane();
+		root = new StackPane();
 		Label score = new Label();
 		score.setAlignment(Pos.TOP_RIGHT); 
 		score.setTextAlignment(TextAlignment.CENTER);
 		scene = new Scene(root, 800, 600, Color.ALICEBLUE);
-		
 		Controller controller = new Controller();
 		player = new Player(controller);
+		playerGroup = new Group (player);
 		controller.setKeys(scene);
 
+		root.getChildren().add(playerGroup);
 		root.getChildren().add(background);
 		root.getChildren().add(player);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+		update();
+
 		AnimationTimer at = new AnimationTimer() {
 			@Override
+
 			public void handle(long time) {
-				double x = player.getX();
-				double y = player.getY();
-				
-				if(controller.moveUp) { y -= 1; }
+
+				if(controller.moveUp) { y -= 1; 
+				System.out.println(y);
+				}
 				if(controller.moveDown) { y += 1; }
 				if(controller.moveRight) { x += 1; }
 				if(controller.moveLeft) { y -= 1; }
-				
+			
+				player.setLayoutX(x);
+				player.setLayoutY(y);
 			}
 		
 		};
 		
 		at.start();
+	
+	}
 
+	
+	private void update() {
+		player.setLayoutX(x + 1000);
+		player.setLayoutY(y + 1000);
+		//root.getChildren().add(playerGroup);
 	}
 	
+	private void updateSprite() {
+		player.setX(x);
+		player.setY(y);
+		
+	}
 	private void populateEnemies() {
+		//enemies.add();
 		
 	}
 	
