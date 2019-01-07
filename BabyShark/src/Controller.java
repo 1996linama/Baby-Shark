@@ -10,36 +10,49 @@ public class Controller {
 	
 	public Controller() {}
 	public void setKeys(Scene scene) {
-		EventHandler<KeyEvent> k = new EventHandler<KeyEvent>() {
+		EventHandler<KeyEvent> p = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
 				if(key.getCode() == KeyCode.UP) {
 					moveUp = true;
-				} else {
-					moveUp = false;
 				}
 				
 				if(key.getCode() == KeyCode.DOWN) {
 					moveDown = true;
-				} else {
-					moveDown = false;
 				}
 				
 				if(key.getCode() == KeyCode.RIGHT) {
 					moveRight = true;
-				} else {
-					moveRight = false;
 				}
 				
 				if(key.getCode() == KeyCode.LEFT) {
 					moveLeft = true;
-				} else {
+				} 
+			}
+		};
+		
+		
+		EventHandler<KeyEvent> r = new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent key) {
+				if(key.getCode() == KeyCode.UP) {
+					moveUp = false;
+				}
+				
+				if(key.getCode() == KeyCode.DOWN) {
+					moveDown = false;
+				}
+				
+				if(key.getCode() == KeyCode.RIGHT) {
+					moveRight = false;
+				}
+				
+				if(key.getCode() == KeyCode.LEFT) {
 					moveLeft = false;
 				}
 			}
 		};
 		
-		scene.setOnKeyPressed(k);
-		scene.setOnKeyReleased(k);
+		scene.setOnKeyPressed(p);
+		scene.setOnKeyReleased(r);
 		
 	}
 

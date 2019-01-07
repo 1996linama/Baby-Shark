@@ -7,11 +7,23 @@ public class Player extends ImageView {
 	double y;
 	int width;
 	int height;
+	boolean direction;
 	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/fish1.png"));
-	private ImageView player = new ImageView();
-	private Controller controller;
 	
+	public void setP(double x, double y) {
+		this.x = x;
+		this.y = y;
+		this.setTranslateX(x);
+		this.setTranslateY(y);
+	}
 	
+	public void flipLeft() {
+		this.setScaleX(-1);
+	}
+	
+	public void flipRight() {
+		this.setScaleX(1);
+	}
 	
 	public double getPX() {
 		return this.getX();
@@ -26,10 +38,10 @@ public class Player extends ImageView {
 	//	playerSprite.relocate(x, y);
 	}
 	
-	public Player(Controller controller) {
+	public Player() {
 		//initialize the character
 		setImage(playerSprite);
-		this.controller = controller;
+
 	}
 
 

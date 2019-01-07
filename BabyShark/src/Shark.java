@@ -1,3 +1,4 @@
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Shark extends Fish {
@@ -6,7 +7,8 @@ public class Shark extends Fish {
 	private int frequency;
 	private int x;
 	private int y;
-	private ImageView fishSprite;
+	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish0.png"));
+	
 	
 	public int getSpeed() {
 		return speed;
@@ -21,6 +23,10 @@ public class Shark extends Fish {
 	}
 	
 	Shark(){
+		speed = 30;
+		frequency = 5;
+		setImage(fishSprite);
+		
 		//create the shark in a random location
 		
 	}
