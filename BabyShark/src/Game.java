@@ -17,7 +17,7 @@ import javafx.animation.*;
 
 
 public class Game extends Application {
-
+	private Stage primaryStage;
 	private Scene scene;
 	private Player player;
 	private Group playerGroup;
@@ -26,14 +26,20 @@ public class Game extends Application {
 	private BorderPane border;
 	private HBox topMenu;
 	private Controller controller;
+	private static boolean sharka = true;
+	
 	double x = 0;
 	double y = 0;
+//	public final double width = primaryStage.getHeight();
+//	public final double height = primaryStage.getWidth();
+	
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
 
 	ArrayList<Fish> enemies = new ArrayList<Fish>();
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		Frame frame = new Frame(primaryStage);
 		root = new StackPane();
 		border = new BorderPane();
@@ -42,17 +48,15 @@ public class Game extends Application {
 
 		Label score = new Label();
 		score.setAlignment(Pos.TOP_RIGHT); 
-		score.setTextAlignment(TextAlignment.CENTER);
-		
+		score.setTextAlignment(TextAlignment.CENTER);	
 		
 		controller = new Controller();
 		
 		player = new Player();
 
 	
-		border.setTop(topMenu);
+		border.setTop(topMenu);	//this will contain the score label
 		
-
 		root.getChildren().add(background);
 		root.getChildren().add(player);
 		root.getChildren().add(topMenu);
@@ -72,16 +76,19 @@ public class Game extends Application {
 				
 				if(controller.moveRight) { 
 					x += 1;
-					player.flipRight();
+					player.flipRight(); // when player moves, sprite flips
 				}
 				if(controller.moveLeft) { 
 					x -= 1;
 					player.flipLeft();
 				}
+				
+				if (time >= 10000000) {
+					populateEnemies();
+					time = 0;
+				}
 			
-				player.setP(x, y);
-			
-	
+				player.updateLocation(x, y);
 			}
 		};
 		
@@ -89,12 +96,22 @@ public class Game extends Application {
 	
 	}
 
-
+	private void addFish(Fish fish) {
+		enemies.add(fish);
+		root.getChildren().add(fish);
+	}
+	
+	private void removeFish(Fish fish) {
+		enemies.remove(fish);
+		root.getChildren().remove(fish);
+	}
+	
 	private void populateEnemies() {
-		Fish shark = new Shark();
-		enemies.add(shark);
-		root.getChildren().add(shark);
-		
+		if(sharka) {
+			Fish shark = new Shark();
+			addFish(shark);
+			sharka = false;
+		}
 		
 	}
 	
