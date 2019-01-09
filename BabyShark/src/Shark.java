@@ -1,9 +1,8 @@
-import javafx.animation.AnimationTimer;
+import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class Shark extends Fish {
@@ -17,6 +16,7 @@ public class Shark extends Fish {
 	private double width;
 	private boolean reverse;
 	private boolean isAlive;
+	private Random random;
 	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish6.png"));
 	
 	public void updateLocation(double x, double y) {
@@ -69,7 +69,9 @@ public class Shark extends Fish {
 	public void run() {
 		Timeline timeline = new Timeline();
 		KeyValue kv;
-	//	this.setTranslateY(value);
+		random = new Random();
+		double num = random.nextInt((int) (600 - getHeight()));
+		this.setTranslateY(num);
 
 		if(reverse) {
 			this.setTranslateX(400 + getWidth());
@@ -81,12 +83,17 @@ public class Shark extends Fish {
 		}
 		
 		timeline.setAutoReverse(false);
-		KeyFrame kf = new KeyFrame(Duration.millis(9000), kv);
+		KeyFrame kf = new KeyFrame(Duration.millis(speed), kv);
 		timeline.getKeyFrames().add(kf);
 		timeline.play();		
 	}
 	
+	private double getHeight() {
+		return fishSprite.getHeight();
+	}
+
 	Shark(){
+		speed = 9000;
 		isAlive = true;
 		setImage(fishSprite);
 		run();
