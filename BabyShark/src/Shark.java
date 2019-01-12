@@ -116,6 +116,11 @@ public class Shark extends Fish {
 	public double getWidth() {
 		return fishSprite.getWidth();
 	}
+
+	@Override
+	protected double getSize() {
+		return getWidth() * getHeight();
+	}
 	
 	
 

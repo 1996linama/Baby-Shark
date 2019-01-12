@@ -95,19 +95,16 @@ public class Game extends Application {
 	}
 	
 	private void updateFish() {
-		for(Fish fish : enemies) {
-			//handles all movement of fish.. ?
-			if(checkCollision(fish)) {
-				System.out.println("Collided!");
+		for(Fish fish : new ArrayList<Fish>(enemies)) {
+			//handles all movement of fish.. and need a better way of handling initial 0s
+			if(player.getLocationX() != 0 && checkCollision(fish)) {
 				removeFish(fish);
 			}
 			
-			if(fish.getX() > 800) {
-				System.out.println("Remove fish");
-			}
 		}
 	}
 	
+	//I could make this a one line code if needed but it would be really long
 	private boolean checkCollision(Fish fish) {
 		double minX = fish.getLocationX();
 		double maxX = fish.getLocationX() + fish.getWidth();
@@ -122,6 +119,10 @@ public class Game extends Application {
 		
 		return false;
 	}
+	
+	private boolean checkSize(Fish fish) {
+		return fish.getSize() < player.getSize();
+	}
 
 	private void addFish(Fish fish) {
 		enemies.add(fish);
@@ -129,9 +130,8 @@ public class Game extends Application {
 	}
 	
 	private void removeFish(Fish fish) {
-		//enemies.remove(fish);
-		//root.getChildren().remove(fish);
-		System.out.println("removed!");
+		root.getChildren().remove(fish);
+		enemies.remove(fish);
 	}
 	
 	public void gameOver() {
@@ -140,7 +140,6 @@ public class Game extends Application {
 	private void populateEnemies() {
 		if(sharka) {
 			Fish shark = new Shark();
-			
 			addFish(shark);
 			sharka = false;
 		}

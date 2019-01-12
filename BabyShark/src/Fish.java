@@ -18,6 +18,7 @@ public abstract class Fish extends ImageView {
 	public abstract void flipRight();
 	public abstract void run();
 	public abstract double getWidth();
+	protected abstract double getSize();
 	
 	
 	Fish() {}
