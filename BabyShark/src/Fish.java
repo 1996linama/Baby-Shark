@@ -21,5 +21,8 @@ public abstract class Fish extends ImageView {
 	
 	
 	Fish() {}
+	protected abstract double getHeight();
+	protected abstract double getLocationX();
+	protected abstract double getLocationY();
 	
 }

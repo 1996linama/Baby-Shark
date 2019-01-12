@@ -5,9 +5,10 @@ public class Player extends Fish {
 	int speed;
 	double x;
 	double y;
-	int width;
-	int height;
+	double width;
+	double height;
 	boolean direction;
+	boolean isAlive;
 	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/fish1.png"));
 	
 	public void updateLocation(double x, double y) {
@@ -16,6 +17,7 @@ public class Player extends Fish {
 		this.setTranslateX(x);
 		this.setTranslateY(y);
 	}
+	
 	
 	public double getWidth() {
 		return playerSprite.getWidth();
@@ -45,31 +47,48 @@ public class Player extends Fish {
 	}
 	
 	public void collision() {
+		//isAlive = false;
 		
+	}
+	
+	public void updateImage(Image sprite) {
+		setImage(sprite);
+		this.width = sprite.getWidth();
+		this.height = sprite.getHeight(); 
 	}
 	
 	public Player() {
 		//initialize the character
-		setImage(playerSprite);
+		updateImage(playerSprite);
+		isAlive = true;
 
 	}
 
 
 	public int getSpeed() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 	public int getFrequency() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 	public void run() {
-		// TODO Auto-generated method stub
-		
+	//handles Animation	
+	}
+
+
+	@Override
+	protected double getLocationX() {
+		return this.x;
+	}
+
+
+	@Override
+	protected double getLocationY() {
+		return this.y;
 	}
 
 

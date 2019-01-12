@@ -20,19 +20,17 @@ public class Game extends Application {
 	private Stage primaryStage;
 	private Scene scene;
 	private Player player;
-	private Group playerGroup;
 	private MediaPlayer music;
 	private StackPane root;
 	private BorderPane border;
 	private HBox topMenu;
 	private Controller controller;
 	private static boolean sharka = true;
+	private boolean gameOn = true;
 	
 	double x = 0;
 	double y = 0;
-//	public final double width = primaryStage.getHeight();
-//	public final double height = primaryStage.getWidth();
-	
+
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
 
 	ArrayList<Fish> enemies = new ArrayList<Fish>();
@@ -44,7 +42,6 @@ public class Game extends Application {
 		root = new StackPane();
 		border = new BorderPane();
 		topMenu = new HBox();
-		primaryStage.setResizable(false);
 
 		Label score = new Label();
 		score.setAlignment(Pos.TOP_RIGHT); 
@@ -53,7 +50,6 @@ public class Game extends Application {
 		controller = new Controller();
 		
 		player = new Player();
-
 	
 		border.setTop(topMenu);	//this will contain the score label
 		
@@ -62,11 +58,13 @@ public class Game extends Application {
 		root.getChildren().add(topMenu);
 
 		scene = new Scene(root, 800, 600, Color.ALICEBLUE);
+		
 		controller.setKeys(scene);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
+		
+		//handles controller movement. 
 		AnimationTimer at = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
@@ -83,17 +81,46 @@ public class Game extends Application {
 					player.flipLeft();
 				}
 				
-				if (time >= 10000000) {
-					populateEnemies();
-					time = 0;
-				}
+				// Needs to be fixed
+				populateEnemies();
+				time = 0;	
 			
 				player.updateLocation(x, y);
+				updateFish();
 			}
+			
 		};
 		
 		at.start();
+	}
 	
+	private void updateFish() {
+		for(Fish fish : enemies) {
+			//handles all movement of fish.. ?
+			if(checkCollision(fish)) {
+				System.out.println("Collided!");
+				removeFish(fish);
+			}
+			
+			if(fish.getX() > 800) {
+				System.out.println("Remove fish");
+			}
+		}
+	}
+	
+	private boolean checkCollision(Fish fish) {
+		double minX = fish.getLocationX();
+		double maxX = fish.getLocationX() + fish.getWidth();
+		double minY = fish.getLocationY();
+		double maxY = fish.getLocationY() + fish.getHeight();
+		
+		if(player.getLocationX() >= minX && player.getLocationX() < maxX) {
+			if(player.getLocationY() >= minY || player.getLocationY() < maxY) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	private void addFish(Fish fish) {
@@ -102,13 +129,18 @@ public class Game extends Application {
 	}
 	
 	private void removeFish(Fish fish) {
-		enemies.remove(fish);
-		root.getChildren().remove(fish);
+		//enemies.remove(fish);
+		//root.getChildren().remove(fish);
+		System.out.println("removed!");
+	}
+	
+	public void gameOver() {
 	}
 	
 	private void populateEnemies() {
 		if(sharka) {
 			Fish shark = new Shark();
+			
 			addFish(shark);
 			sharka = false;
 		}

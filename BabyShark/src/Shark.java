@@ -1,4 +1,6 @@
 import java.util.Random;
+
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -11,19 +13,26 @@ public class Shark extends Fish {
 	private int frequency;
 	private double x;
 	private double y;
-	private int time = -100;
-	int xmove;
 	private double width;
 	private boolean reverse;
 	private boolean isAlive;
 	private Random random;
 	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish6.png"));
+	double i;
 	
 	public void updateLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.setTranslateX(x);
 		this.setTranslateY(y);
+	}
+	
+	public double getLocationX() {
+		return this.x;	
+	}
+	
+	public double getLocationY() {
+		return this.y;
 	}
 	
 	public int getSpeed() {
@@ -46,49 +55,54 @@ public class Shark extends Fish {
 		this.setScaleX(1);
 	}
 	
-	public void move() {
-
-		while(time < 100000) {
-			
-			this.setTranslateX(xmove++);
-			time++;
-		}
-		System.out.println("Done!");
-	}
-	
-/*	
-	public void remove() {
-		if(this.getX() > )
-	}
-*/
-	
 	public int getFrequency() {
 		return frequency;
 	}
 
 	public void run() {
-		Timeline timeline = new Timeline();
-		KeyValue kv;
+		/*Timeline timeline = new Timeline();
+		KeyValue kv;*/
 		random = new Random();
 		double num = random.nextInt((int) (600 - getHeight()));
+		double x;
 		this.setTranslateY(num);
-
+		i = -400 - getWidth();
+		AnimationTimer timer = new AnimationTimer() {
+			@Override
+			public void handle(long time) {
+				updateLocation(i, num);
+				i++;
+				if(i > 400.0) {
+					this.stop();
+				}
+			}
+			
+		};
+		
+		/*
 		if(reverse) {
-			this.setTranslateX(400 + getWidth());
+			x = 400 + getWidth();
+			updateLocation(x, num);
+			this.setTranslateX(x);
 			flipLeft();
 			kv = new KeyValue(this.translateXProperty(), -400 - getWidth());
 		} else {
-			this.setTranslateX(-400 - getWidth());
+			x = -400 - getWidth();
+			updateLocation(x, num);
+			this.setTranslateX(x);
 			kv = new KeyValue(this.translateXProperty(), 400 + getWidth());	
 		}
 		
 		timeline.setAutoReverse(false);
 		KeyFrame kf = new KeyFrame(Duration.millis(speed), kv);
-		timeline.getKeyFrames().add(kf);
-		timeline.play();		
+		//timeline.getKeyFrames().add(kf); // animation starts of translation
+		*/
+		//timeline.play();
+		
+		timer.start();
 	}
 	
-	private double getHeight() {
+	protected double getHeight() {
 		return fishSprite.getHeight();
 	}
 
@@ -99,11 +113,6 @@ public class Shark extends Fish {
 		run();
 	}
 
-
-
-
-
-	@Override
 	public double getWidth() {
 		return fishSprite.getWidth();
 	}
