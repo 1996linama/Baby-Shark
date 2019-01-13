@@ -10,7 +10,7 @@ public class Frame extends Stage{
 		primaryStage.setHeight(height);
 		primaryStage.setWidth(width);
 		primaryStage.setTitle(BS_TITLE);
-		primaryStage.setResizable(false);
+		primaryStage.setResizable(true); //should be false, temp resize true
 		primaryStage.show();
 
 	}

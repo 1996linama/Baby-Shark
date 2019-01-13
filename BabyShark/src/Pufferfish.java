@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 
 public class Pufferfish extends Fish {
 	
+	private FishType type;
 	private double speed;
 	private int frequency;
 	private double x;
@@ -88,6 +89,7 @@ public class Pufferfish extends Fish {
 	}
 
 	Pufferfish(){
+		this.type = FishType.PUFFERFISH;
 		speed = 0.8;
 		isAlive = true;
 		setImage(fishSprite);
@@ -101,8 +103,9 @@ public class Pufferfish extends Fish {
 	}
 
 	@Override
+	//Pufferfish is always dangerous to the player
 	protected double getSize() {
-		return 10000;
+		return Double.MAX_VALUE;
 	}
 
 	@Override

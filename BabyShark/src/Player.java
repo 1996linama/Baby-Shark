@@ -18,7 +18,6 @@ public class Player extends Fish {
 		this.setTranslateY(y);
 	}
 	
-	
 	public double getWidth() {
 		return playerSprite.getWidth();
 	}
@@ -65,8 +64,8 @@ public class Player extends Fish {
 	}
 
 
-	public int getSpeed() {
-		return 0;
+	public double getSpeed() {
+		return 1;
 	}
 
 
@@ -89,6 +88,24 @@ public class Player extends Fish {
 	@Override
 	protected double getLocationY() {
 		return this.y;
+	}
+
+
+	@Override
+	public int getScore() {
+		return 0;
+	}
+
+
+	@Override
+	public double setSpeed() {
+		return 0;
+	}
+
+
+	@Override
+	public int setFrequency() {
+		return 0;
 	}
 
 

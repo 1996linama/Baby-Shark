@@ -4,6 +4,7 @@ import java.util.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.application.Application;
@@ -18,7 +19,9 @@ import javafx.animation.*;
 
 public class Game extends Application {
 	private Stage primaryStage;
+	private Frame frame;
 	private Scene scene;
+	private Label scoreLabel;
 	private Player player;
 	private MediaPlayer music;
 	private StackPane root;
@@ -27,37 +30,48 @@ public class Game extends Application {
 	private Controller controller;
 	private static boolean sharka = true;
 	private boolean gameOn = true;
+	private int score = 0;
 	
 	double x = 0;
 	double y = 0;
 
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
 
-	ArrayList<Fish> enemies = new ArrayList<Fish>();
+	ArrayList<Fish> enemies = new ArrayList<Fish>(); //stores the fish that exist on screen
+	HashMap<FishType, Fish> fishInfo = new HashMap<FishType, Fish>(); //stores a collection of fish database
+	
+	private void fillInfo() {
+		fishInfo.put(FishType.PUFFERFISH, new Pufferfish());
+		fishInfo.put(FishType.SHARK, new Shark(100, 100));
+	}
+	
+	private void initialize() {
+		frame = new Frame(primaryStage);
+		controller = new Controller();
+		player = new Player();
+
+	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
-		Frame frame = new Frame(primaryStage);
 		root = new StackPane();
 		border = new BorderPane();
 		topMenu = new HBox();
-
-		Label score = new Label();
-		score.setAlignment(Pos.TOP_RIGHT); 
-		score.setTextAlignment(TextAlignment.CENTER);	
 		
-		controller = new Controller();
-		
-		player = new Player();
-	
-		border.setTop(topMenu);	//this will contain the score label
+		scoreLabel = new Label("Score: " + Integer.toString(score));
+		scoreLabel.setFont(new Font("Arial", 18.0));
+		scoreLabel.setAlignment(Pos.TOP_LEFT); 
+		scoreLabel.setTextAlignment(TextAlignment.LEFT);	
+		initialize();
+		topMenu.getChildren().add(scoreLabel);
+		border.setTop(topMenu);
 		
 		root.getChildren().add(background);
 		root.getChildren().add(player);
-		root.getChildren().add(topMenu);
-
-		scene = new Scene(root, 800, 600, Color.ALICEBLUE);
+		root.getChildren().add(border);
+		
+		scene = new Scene(root, 1000, 1000, Color.ALICEBLUE);
 		
 		controller.setKeys(scene);
 		
@@ -70,8 +84,7 @@ public class Game extends Application {
 			public void handle(long time) {
 
 				if(controller.moveUp) { y -= 1; }
-				if(controller.moveDown) { y += 1; }
-				
+				if(controller.moveDown) { y += 1; }		
 				if(controller.moveRight) { 
 					x += 1;
 					player.flipRight(); // when player moves, sprite flips
@@ -81,29 +94,42 @@ public class Game extends Application {
 					player.flipLeft();
 				}
 				
-				// Needs to be fixed
+				// Needs to be fixed, aka a better system of spawning fish
 				populateEnemies();
 				time = 0;	
 			
-				player.updateLocation(x, y);
-				updateFish();
+				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
+				updateFish(); // called everytime? might be a problem
+				updateScore();
 			}
 			
 		};
 		
 		at.start();
+		
+	}
+	
+	private void updateScore() {
+		scoreLabel.setText("Score: " + Integer.toString(score));
 	}
 	
 	private void updateFish() {
 		for(Fish fish : new ArrayList<Fish>(enemies)) {
 			//handles all movement of fish.. and need a better way of handling initial 0s
-			if(player.getLocationX() != 0 && checkCollision(fish)) {
-				removeFish(fish);
-			}
-			
+			if(fish.getLocationX() != 0 && checkCollision(fish)) {
+				//TODO: also note that removing the fish, removes the first INSTANCE of the fish
+				//so will need to fix
+				if(checkSize(fish)) {
+					removeFish(fish);
+				} else {
+					removeFish(player);
+					gameOver();
+				}
+			}			
 		}
 	}
-	
+
+	//TODO: FIX CODE
 	//I could make this a one line code if needed but it would be really long
 	private boolean checkCollision(Fish fish) {
 		double minX = fish.getLocationX();
@@ -112,7 +138,7 @@ public class Game extends Application {
 		double maxY = fish.getLocationY() + fish.getHeight();
 		
 		if(player.getLocationX() >= minX && player.getLocationX() < maxX) {
-			if(player.getLocationY() >= minY || player.getLocationY() < maxY) {
+			if(player.getLocationY() >= minY && player.getLocationY() < maxY) {
 				return true;
 			}
 		}
@@ -121,7 +147,17 @@ public class Game extends Application {
 	}
 	
 	private boolean checkSize(Fish fish) {
-		return fish.getSize() < player.getSize();
+		System.out.println("Fish : " + fish.getSize() + " Player:" + player.getSize());
+		return fish.getSize() <= player.getSize();
+	}
+	
+	//produce on enum type
+	private static Fish createFish(FishType type) {
+		switch(type) {
+			case SHARK:
+				return new Shark(100, 200);
+		}
+		return null;
 	}
 
 	private void addFish(Fish fish) {
@@ -130,17 +166,21 @@ public class Game extends Application {
 	}
 	
 	private void removeFish(Fish fish) {
+		score += fish.getScore();
 		root.getChildren().remove(fish);
 		enemies.remove(fish);
 	}
 	
 	public void gameOver() {
+		System.out.println("Game over!");
 	}
 	
 	private void populateEnemies() {
 		if(sharka) {
-			Fish shark = new Shark();
+			Fish shark = new Shark(200, 200);
+			Fish puffer = new Pufferfish();
 			addFish(shark);
+			addFish(puffer);
 			sharka = false;
 		}
 		

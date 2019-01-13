@@ -5,10 +5,15 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+
 public class Controller {
 	public boolean moveUp, moveDown, moveRight, moveLeft;
 	
-	public Controller() {}
+	public Controller() {
+		
+	}
+	
+	/* Handles key movements for the player, may move this to Game.java */	
 	public void setKeys(Scene scene) {
 		EventHandler<KeyEvent> p = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
