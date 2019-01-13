@@ -20,7 +20,10 @@ import javafx.animation.*;
 public class Game extends Application {
 	private Stage primaryStage;
 	private Frame frame;
-	private Scene scene;
+	private Scene menuScene;
+	private Scene playScene;
+	private Scene endScene;
+	private Scene instructScene;
 	private Label scoreLabel;
 	private Player player;
 	private MediaPlayer music;
@@ -71,11 +74,9 @@ public class Game extends Application {
 		root.getChildren().add(player);
 		root.getChildren().add(border);
 		
-		scene = new Scene(root, 1000, 1000, Color.ALICEBLUE);
-		
-		controller.setKeys(scene);
-		
-		primaryStage.setScene(scene);
+		playScene = new Scene(root, 1000, 1000, Color.ALICEBLUE);
+		controller.setKeys(playScene);
+		primaryStage.setScene(playScene);
 		primaryStage.show();
 		
 		//handles controller movement. 
@@ -147,7 +148,7 @@ public class Game extends Application {
 	}
 	
 	private boolean checkSize(Fish fish) {
-		System.out.println("Fish : " + fish.getSize() + " Player:" + player.getSize());
+		//System.out.println("Fish : " + fish.getSize() + " Player:" + player.getSize());
 		return fish.getSize() <= player.getSize();
 	}
 	
@@ -172,7 +173,13 @@ public class Game extends Application {
 	}
 	
 	public void gameOver() {
-		System.out.println("Game over!");
+		root.getChildren().clear();
+		enemies.clear();
+		StackPane end = new StackPane();
+		Label endLabel = new Label("Game Over!");
+		end.getChildren().add(endLabel);
+		endScene = new Scene(end, 1000, 1000, Color.ALICEBLUE);
+		primaryStage.setScene(endScene);
 	}
 	
 	private void populateEnemies() {
