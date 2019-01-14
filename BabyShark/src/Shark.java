@@ -63,7 +63,7 @@ public class Shark extends Fish {
 
 	public void run() {
 		random = new Random();
-		double y = random.nextInt((int) (600 - getHeight()));
+		double y = random.nextInt((300) + (int) getHeight());
 		double x;
 		this.setTranslateY(y);
 		i = -400 - getWidth(); //out of the frame
@@ -73,7 +73,7 @@ public class Shark extends Fish {
 				updateLocation(i, y);
 				i++;
 				if(i > 400.0) {
-					//this.stop(); if i want the fish to disappear
+					this.stop();
 				}
 			}
 			

@@ -1,6 +1,8 @@
 
+import java.io.File;
 import java.util.*;
 
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -11,6 +13,7 @@ import javafx.application.Application;
 import javafx.event.*;
 import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,32 +22,31 @@ import javafx.animation.*;
 
 public class Game extends Application {
 	private Stage primaryStage;
+	private Stage menuStage;
 	private Frame frame;
-	private Scene menuScene;
 	private Scene playScene;
 	private Scene endScene;
 	private Scene instructScene;
 	private Label scoreLabel;
 	private Player player;
-	private MediaPlayer music;
+	//private Media media;
+	//private MediaPlayer music;
 	private StackPane root;
 	private BorderPane border;
 	private HBox topMenu;
 	private Controller controller;
 	private static boolean sharka = true;
-	private boolean gameOn = true;
 	private int score = 0;
 	
 	double x = 0;
 	double y = 0;
 
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
-
 	ArrayList<Fish> enemies = new ArrayList<Fish>(); //stores the fish that exist on screen
 	HashMap<FishType, Fish> fishInfo = new HashMap<FishType, Fish>(); //stores a collection of fish database
 	
 	private void fillInfo() {
-		fishInfo.put(FishType.PUFFERFISH, new Pufferfish());
+		fishInfo.put(FishType.PUFFERFISH, new Pufferfish(100, 200));
 		fishInfo.put(FishType.SHARK, new Shark(100, 100));
 	}
 	
@@ -52,7 +54,6 @@ public class Game extends Application {
 		frame = new Frame(primaryStage);
 		controller = new Controller();
 		player = new Player();
-
 	}
 	
 	@Override
@@ -70,11 +71,17 @@ public class Game extends Application {
 		topMenu.getChildren().add(scoreLabel);
 		border.setTop(topMenu);
 		
+		Media media = new Media(getClass().getResource("/res/bgm.mp3").toString());
+		MediaPlayer music = new MediaPlayer(media);
+		music.setAutoPlay(true);
+		music.setCycleCount(MediaPlayer.INDEFINITE);
+		music.play();
+		 
 		root.getChildren().add(background);
 		root.getChildren().add(player);
 		root.getChildren().add(border);
 		
-		playScene = new Scene(root, 1000, 1000, Color.ALICEBLUE);
+		playScene = new Scene(root, 800, 600, Color.ALICEBLUE);
 		controller.setKeys(playScene);
 		primaryStage.setScene(playScene);
 		primaryStage.show();
@@ -116,10 +123,8 @@ public class Game extends Application {
 	
 	private void updateFish() {
 		for(Fish fish : new ArrayList<Fish>(enemies)) {
-			//handles all movement of fish.. and need a better way of handling initial 0s
-			if(fish.getLocationX() != 0 && checkCollision(fish)) {
-				//TODO: also note that removing the fish, removes the first INSTANCE of the fish
-				//so will need to fix
+			if(checkCollisions(fish)) {
+				System.out.println("Collided");
 				if(checkSize(fish)) {
 					removeFish(fish);
 				} else {
@@ -130,25 +135,12 @@ public class Game extends Application {
 		}
 	}
 
-	//TODO: FIX CODE
-	//I could make this a one line code if needed but it would be really long
-	private boolean checkCollision(Fish fish) {
-		double minX = fish.getLocationX();
-		double maxX = fish.getLocationX() + fish.getWidth();
-		double minY = fish.getLocationY();
-		double maxY = fish.getLocationY() + fish.getHeight();
-		
-		if(player.getLocationX() >= minX && player.getLocationX() < maxX) {
-			if(player.getLocationY() >= minY && player.getLocationY() < maxY) {
-				return true;
-			}
-		}
-		
-		return false;
+	
+	private boolean checkCollisions(Fish fish) {
+		return fish.getBoundsInParent().intersects(player.getBoundsInParent());
 	}
 	
 	private boolean checkSize(Fish fish) {
-		//System.out.println("Fish : " + fish.getSize() + " Player:" + player.getSize());
 		return fish.getSize() <= player.getSize();
 	}
 	
@@ -172,20 +164,32 @@ public class Game extends Application {
 		enemies.remove(fish);
 	}
 	
-	public void gameOver() {
+	private void setInstructions() {
+		StackPane instruct = new StackPane();
+		Label instructLabel = new Label("Instructions");
+		instruct.getChildren().add(instructLabel);
+		instructScene = new Scene(instruct, 800, 600, Color.ALICEBLUE);
+		primaryStage.setScene(instructScene);
+	}
+	
+	private void gameOver() {
 		root.getChildren().clear();
 		enemies.clear();
 		StackPane end = new StackPane();
 		Label endLabel = new Label("Game Over!");
 		end.getChildren().add(endLabel);
+		//Button restart = new Button("Play Again");
+		//restart.setOnAction(e -> primaryStage.setScene(playScene));
+		//end.getChildren().add(restart);
 		endScene = new Scene(end, 1000, 1000, Color.ALICEBLUE);
 		primaryStage.setScene(endScene);
 	}
 	
 	private void populateEnemies() {
 		if(sharka) {
-			Fish shark = new Shark(200, 200);
-			Fish puffer = new Pufferfish();
+			Fish shark = new Shark(-300, 300);
+			Fish shark2 = new Shark(200, -300);
+			Fish puffer = new Pufferfish(100, -200);
 			addFish(shark);
 			addFish(puffer);
 			sharka = false;

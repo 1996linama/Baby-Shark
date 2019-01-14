@@ -65,7 +65,7 @@ public class Pufferfish extends Fish {
 		/*Timeline timeline = new Timeline();
 		KeyValue kv;*/
 		random = new Random();
-		double y = random.nextInt((int) (600 - getHeight()));
+		//double y = random.nextInt(500) + getHeight();
 		double x;
 		this.setTranslateY(y);
 		i = -400 - getWidth(); //out of the frame
@@ -88,13 +88,12 @@ public class Pufferfish extends Fish {
 		return fishSprite.getHeight();
 	}
 
-	Pufferfish(){
+	Pufferfish(double x, double y){
 		this.type = FishType.PUFFERFISH;
 		speed = 0.8;
 		isAlive = true;
 		setImage(fishSprite);
-		this.setX(-400 - getWidth());
-		//this.setY(value);
+		updateLocation(x, y);
 		run();
 	}
 
