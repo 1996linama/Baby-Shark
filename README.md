@@ -1,4 +1,4 @@
-# BabyShark
+# Baby Shark
 
 <p><b>Project Description</b><p>
 Baby Shark is a Java game.
