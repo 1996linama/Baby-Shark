@@ -7,12 +7,10 @@ public class Catfish extends Fish {
 	private Random random;
 	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish5.png"));
 	double i;
-
-
 	
 	public void run() {
 		random = new Random();
-		double y = random.nextInt((300) + (int) getHeight());
+		double y = random.nextInt(300) + -300;
 		double x;
 		this.setTranslateY(y);
 
@@ -22,8 +20,9 @@ public class Catfish extends Fish {
 			public void handle(long time) {
 				updateLocation(i * getSpeed(), y);
 				i++;
-				if(i > 400.0) {
+				if(i > 420.0) {
 					this.stop();
+					setLife();
 				}
 			}
 			

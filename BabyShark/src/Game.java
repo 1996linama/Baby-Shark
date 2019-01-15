@@ -39,6 +39,7 @@ public class Game extends Application {
 	double y = 0;
 
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
+
 	ArrayList<Fish> enemies = new ArrayList<Fish>(); //stores the fish that exist on screen
 	ArrayList<FishType> types = new ArrayList<FishType>(Arrays.asList(FishType.values()));
 	
@@ -81,7 +82,7 @@ public class Game extends Application {
 		root.getChildren().add(player);
 		root.getChildren().add(border);
 		
-		playScene = new Scene(root, 800, 600, Color.ALICEBLUE);
+		playScene = new Scene(root);
 		controller.setKeys(playScene);
 		primaryStage.setScene(playScene);
 		primaryStage.show();
@@ -105,6 +106,8 @@ public class Game extends Application {
 
 				populateEnemies();	
 				
+				checkPlayerBounds();
+				
 				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
 				
 				updateFish();
@@ -118,13 +121,28 @@ public class Game extends Application {
 		
 	}
 	
+	private void checkPlayerBounds() {
+		if(player.getLocationX() > 400.0 + player.getWidth()) {
+		}
+		
+		if(player.getLocationX() < -400.0 - player.getWidth()) {
+		}
+
+		if(player.getLocationY() > 400.0 + player.getHeight()) {
+		}
+		
+		if(player.getLocationY() < -400.0 - player.getHeight()) {
+		}
+		
+	}
+	
 	private void updateScore() {
 		scoreLabel.setText("Score: " + player.getScore());
 	}
 	
 	private void updateFish() {
 		for(Fish fish : new ArrayList<Fish>(enemies)) {
-			if(player.getLocationX() != 0 && checkCollisions(fish)) {
+			if(player.getLocationX() != 0 && checkCollisions(fish, player)) {
 				if(checkSize(fish)) {
 					player.addScore(fish.getScore());
 					removeFish(fish);
@@ -142,8 +160,8 @@ public class Game extends Application {
 		}
 	}
 
-	private boolean checkCollisions(Fish fish) {
-		return fish.getBoundsInParent().intersects(player.getBoundsInParent());
+	private boolean checkCollisions(Fish fish_one, Fish fish_two) {
+		return fish_one.getBoundsInParent().intersects(fish_two.getBoundsInParent());
 	}
 	
 	private boolean checkSize(Fish fish) {
@@ -159,6 +177,8 @@ public class Game extends Application {
 				return new Pufferfish();
 			case CATFISH:
 				return new Catfish();
+			case TUNA:
+				return new Tuna();
 		default:
 			break;
 		}
@@ -206,16 +226,28 @@ public class Game extends Application {
 	
 	private void populateEnemies() {
 		
-		int randomInt = random.nextInt(8);
-		for(int i = enemies.size(); i < randomInt; i++) {
-			//randomize the enumerations
-			
-			for(int t = 0; t < 20; t++) {
-				
-			}
-
+		if(enemies.isEmpty()) {
 			Fish temp = createFish(randomFishType());
 			addFish(temp);
+		}
+		
+		/* naive and terrible solution to preventing overlaps in the spawning system*/
+		for(int i = enemies.size(); i < 8; i++) {
+			//randomize the enumerations
+			boolean check = false;
+			Fish temp = null;
+			for(Fish fish: enemies) {
+				temp = createFish(randomFishType());
+				if(!checkCollisions(fish, temp)) {
+					check = true;
+				} else {
+					check = false;
+				}
+			}
+			
+			if(check && temp != null) {
+				addFish(temp);
+			}
 		}
 		
 	}
