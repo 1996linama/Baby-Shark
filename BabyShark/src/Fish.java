@@ -13,7 +13,7 @@ public abstract class Fish extends ImageView {
 	int score;
 	ImageView fishSprite;
 	Image sprite;
-	Random randomGenerator;
+	Random random = new Random();
 	boolean isAlive;
 
 	public void updateLocation(double x, double y) {
@@ -26,10 +26,10 @@ public abstract class Fish extends ImageView {
 	}
 	
 	public double getSpeed() {
-
 		return this.speed;
 	}
-	
+
+	// used for Player
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
@@ -45,8 +45,6 @@ public abstract class Fish extends ImageView {
 	public void flipRight() {
 		this.setScaleX(1);
 	}
-
-	public abstract void run();
 	
 	public int getScore() {
 		return score;
@@ -89,12 +87,17 @@ public abstract class Fish extends ImageView {
 		return this.y;
 	}
 	
-	protected void setLife() {
+	public void setLife() {
 		isAlive = false;
 		setVisible(false);
 	}
-	protected boolean isAlive() {
+	public boolean isAlive() {
 		return isAlive;
 	}
+	
+	/***************************** abstract methods ***************************/
+	public abstract void run();
+
+	
 	
 }

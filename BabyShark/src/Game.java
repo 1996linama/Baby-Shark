@@ -33,8 +33,7 @@ public class Game extends Application {
 	private BorderPane border;
 	private HBox topMenu;
 	private Controller controller;
-	private static Random random = new Random();
-	private int score = 0;
+	private static Random random = new Random();;
 	
 	double x = 0;
 	double y = 0;
@@ -49,27 +48,35 @@ public class Game extends Application {
 		player = new Player();
 	}
 	
+	private void initScore() {
+		scoreLabel = new Label("Score: " + player.getScore());
+		scoreLabel.setFont(new Font("Arial", 18.0));
+		scoreLabel.setAlignment(Pos.TOP_LEFT); 
+		scoreLabel.setTextAlignment(TextAlignment.LEFT);
+	}
+	
+	private void initMusic() {
+		Media media = new Media(getClass().getResource("/res/bgm.mp3").toString());
+		MediaPlayer music = new MediaPlayer(media);
+		music.setAutoPlay(true);
+		music.setCycleCount(MediaPlayer.INDEFINITE);
+		music.play();
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		root = new StackPane();
 		border = new BorderPane();
 		topMenu = new HBox();
-		
-		scoreLabel = new Label("Score: " + score);
-		scoreLabel.setFont(new Font("Arial", 18.0));
-		scoreLabel.setAlignment(Pos.TOP_LEFT); 
-		scoreLabel.setTextAlignment(TextAlignment.LEFT);	
+			
 		initialize();
+		initScore();
+		initMusic();
+		
 		topMenu.getChildren().add(scoreLabel);
 		border.setTop(topMenu);
 		
-		Media media = new Media(getClass().getResource("/res/bgm.mp3").toString());
-		MediaPlayer music = new MediaPlayer(media);
-		music.setAutoPlay(true);
-		music.setCycleCount(MediaPlayer.INDEFINITE);
-		music.play();
-		 
 		root.getChildren().add(background);
 		root.getChildren().add(player);
 		root.getChildren().add(border);
@@ -97,8 +104,11 @@ public class Game extends Application {
 				}
 
 				populateEnemies();	
+				
 				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
+				
 				updateFish();
+				
 				updateScore();
 			}
 			
@@ -109,13 +119,14 @@ public class Game extends Application {
 	}
 	
 	private void updateScore() {
-		scoreLabel.setText("Score: " + score);
+		scoreLabel.setText("Score: " + player.getScore());
 	}
 	
 	private void updateFish() {
 		for(Fish fish : new ArrayList<Fish>(enemies)) {
-			if(checkCollisions(fish)) {
+			if(player.getLocationX() != 0 && checkCollisions(fish)) {
 				if(checkSize(fish)) {
+					player.addScore(fish.getScore());
 					removeFish(fish);
 				} else {
 					removeFish(player);
@@ -124,7 +135,8 @@ public class Game extends Application {
 				
 			}	
 			
-			if(!fish.isAlive()) {
+			/* Because this is called again */
+			if(fish.getLocationX() > 500.0) {
 				removeFish(fish);
 			}
 		}
@@ -138,7 +150,7 @@ public class Game extends Application {
 		return fish.getSize() <= player.getSize();
 	}
 	
-	//produce on enum type
+	//produce on enum type on random
 	private Fish createFish(FishType type) {
 		switch(type) {
 			case SHARK:
@@ -166,7 +178,6 @@ public class Game extends Application {
 	}
 	
 	private void removeFish(Fish fish) {
-		score += fish.getScore();
 		fish.setLife();
 		root.getChildren().remove(fish);
 		enemies.remove(fish);
@@ -195,8 +206,14 @@ public class Game extends Application {
 	
 	private void populateEnemies() {
 		
-		for(int i = enemies.size(); i < 10; i++) {
+		int randomInt = random.nextInt(8);
+		for(int i = enemies.size(); i < randomInt; i++) {
 			//randomize the enumerations
+			
+			for(int t = 0; t < 20; t++) {
+				
+			}
+
 			Fish temp = createFish(randomFishType());
 			addFish(temp);
 		}

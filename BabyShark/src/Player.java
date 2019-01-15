@@ -2,6 +2,10 @@ import javafx.scene.image.*;
 
 public class Player extends Fish {
 	
+	public void addScore(int num) {
+		score = score + num;
+	}
+	
 	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/fish1.png"));
 	
 	public void updateLocation(double x, double y) {
