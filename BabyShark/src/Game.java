@@ -56,7 +56,7 @@ public class Game extends Application {
 		border = new BorderPane();
 		topMenu = new HBox();
 		
-		scoreLabel = new Label("Score: " + Integer.toString(score));
+		scoreLabel = new Label("Score: " + score);
 		scoreLabel.setFont(new Font("Arial", 18.0));
 		scoreLabel.setAlignment(Pos.TOP_LEFT); 
 		scoreLabel.setTextAlignment(TextAlignment.LEFT);	
@@ -89,14 +89,14 @@ public class Game extends Application {
 				if(controller.moveRight) { 
 					x += 1;
 					player.flipRight();
+
 				}
 				if(controller.moveLeft) { 
 					x -= 1;
 					player.flipLeft();
 				}
 
-				populateEnemies();
-				
+				populateEnemies();	
 				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
 				updateFish();
 				updateScore();
@@ -109,7 +109,7 @@ public class Game extends Application {
 	}
 	
 	private void updateScore() {
-		scoreLabel.setText("Score: " + Integer.toString(score));
+		scoreLabel.setText("Score: " + score);
 	}
 	
 	private void updateFish() {
@@ -140,15 +140,13 @@ public class Game extends Application {
 	
 	//produce on enum type
 	private Fish createFish(FishType type) {
-		double fx = -300;
-		double fy = -300;
 		switch(type) {
 			case SHARK:
-				return new Shark(fx, fy);
+				return new Shark();
 			case PUFFERFISH:
-				return new Pufferfish(fx, fy);
+				return new Pufferfish();
 			case CATFISH:
-				return new Catfish(fx, fy);
+				return new Catfish();
 		default:
 			break;
 		}
@@ -183,8 +181,8 @@ public class Game extends Application {
 	}
 	
 	private void gameOver() {
-		root.getChildren().clear();
 		enemies.clear();
+		root.getChildren().clear();
 		VBox end = new VBox(12);
 		Label endLabel = new Label("Game Over!");
 		end.getChildren().add(endLabel);
@@ -204,6 +202,8 @@ public class Game extends Application {
 		}
 		
 	}
+	
+	/*****************************************Window Controller*************************************/
 	
 	public static void main(String[] args) {
 		Application.launch(args);

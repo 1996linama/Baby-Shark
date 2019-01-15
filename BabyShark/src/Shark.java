@@ -7,66 +7,11 @@ import javafx.scene.image.Image;
 
 public class Shark extends Fish {
 
-	private double speed;
-	private int frequency;
-	private double x;
-	private double y;
-	private boolean reversed;
-	private boolean isAlive;
-	private int score;
 	private Random random;
 	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish6.png"));
-	double i;
+	double i;	
 	
-	public void updateLocation(double x, double y) {
-		this.x = x;
-		this.y = y;
-		this.setX(x);
-		this.setY(y);
-		this.setTranslateX(x);
-		this.setTranslateY(y);
-	}
-	
-	public int getScore() {
-		return this.score;
-	}
-	
-	private void setDeath() {
-		
-	}
-	
-	public double getLocationX() {
-		return this.x;	
-	}
-	
-	public double getLocationY() {
-		return this.y;
-	}
-	
-	public double getSpeed() {
-		return speed;
-	}
-	
-	public void setLife() {
-		isAlive = false;
-		setVisible(false);
-	}
-	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public void flipLeft() {
-		this.setScaleX(-1);
-	}
-	
-	public void flipRight() {
-		this.setScaleX(1);
-	}
-	
-	public int getFrequency() {
-		return frequency;
-	}
+
 
 	public void run() {
 		random = new Random();
@@ -77,7 +22,7 @@ public class Shark extends Fish {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
-				updateLocation(i * speed, y);
+				updateLocation(i * getSpeed(), y);
 				i++;
 				if(i > 420.0) {
 					this.stop();
@@ -89,40 +34,13 @@ public class Shark extends Fish {
 				
 		timer.start();
 	}
-	
-	protected double getHeight() {
-		return fishSprite.getHeight();
-	}
 
-	Shark(double x, double y){
-		speed = 1.5;
-		isAlive = true;
-		this.score = 10;
-		setImage(fishSprite);
-		this.setX(-400 - getWidth());
-		this.setY(y);
+	Shark(){
+		super(1.5, 10);
+		super.setImage(fishSprite);
+		//this.setX(-400 - getWidth());
+		//this.setY(y);
 		run();
 	}
-
-	public double getWidth() {
-		return fishSprite.getWidth();
-	}
-
-	@Override
-	protected double getSize() {
-		return getWidth() * getHeight();
-	}
-
-	@Override
-	public double setSpeed() {
-		return 0;
-	}
-
-	@Override
-	public int setFrequency() {
-		return 0;
-	}
-	
-	
 
 }

@@ -5,63 +5,10 @@ import javafx.scene.image.Image;
 
 public class Pufferfish extends Fish {
 	
-	private double speed;
-	private int frequency;
-	private double x;
-	private double y;
-	private boolean isAlive;
-	private int score;
 	private Random random;
 	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish3.png"));
 	double i;
-
-	public void updateLocation(double x, double y) {
-		this.x = x;
-		this.y = y;
-		this.setX(x);
-		this.setY(y);
-		this.setTranslateX(x);
-		this.setTranslateY(y);
-	}
 	
-	public int getScore() {
-		return this.score;
-	}
-	
-	public double getLocationX() {
-		return this.x;	
-	}
-	
-	public double getLocationY() {
-		return this.y;
-	}
-	
-	public double getSpeed() {
-		return speed;
-	}
-	
-	public void setLife() {
-		isAlive = false;
-		setVisible(false);
-	}
-	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public void flipLeft() {
-		this.setScaleX(-1);
-	}
-	
-	public void flipRight() {
-		this.setScaleX(1);
-	}
-	
-	public int getFrequency() {
-		return frequency;
-	}
-
-
 	public void run() {
 		random = new Random();
 		double y = random.nextInt(400) + -400;
@@ -71,7 +18,7 @@ public class Pufferfish extends Fish {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
-				updateLocation(i * speed, y);
+				updateLocation(i * getSpeed(), y);
 				i++;
 				if(i > 410.0) {
 					setLife();
@@ -84,34 +31,24 @@ public class Pufferfish extends Fish {
 		timer.start();
 	}
 	
-	protected double getHeight() {
-		return fishSprite.getHeight();
+	@Override
+	public double getSize() {
+		return 10000; //death by pufferfish always
 	}
 
-	Pufferfish(double x, double y){
-		speed = 0.8;
-		isAlive = true;
-		setImage(fishSprite);
-		updateLocation(x, y);
+	Pufferfish(){
+		super(0.8, 0);
+		super.setImage(fishSprite);
+		//updateLocation(x, y);
 		run();
 	}
 
-	public double getWidth() {
-		return fishSprite.getWidth();
-	}
 
-	protected double getSize() {
+/*	@Override
+	public double getSize() {
 		return Double.MAX_VALUE;
 	}
-
-	public double setSpeed() {
-		return 0;
-	}
-
-	public int setFrequency() {
-		return 0;
-	}
-	
+*/
 	
 
 }

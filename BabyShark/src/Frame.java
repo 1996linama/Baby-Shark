@@ -14,4 +14,13 @@ public class Frame extends Stage{
 		primaryStage.show();
 
 	}
+	
+	public Stage getMenu() {
+		return null;
+	}
+	
+	public void setMenu() {
+		
+	}
+	
 }
