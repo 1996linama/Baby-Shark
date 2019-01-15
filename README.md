@@ -11,7 +11,7 @@ The ocean is a dangerous place.
 Use your mouse pad to move your character. 
 <p>
   
-## <b> Project Background</b><p>
+## <b> Project Background</b>
 Created by Lina Ma (@1996linama), inspired by one of her many favorite games she played in her childhood.
 <p>
   
