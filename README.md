@@ -1,6 +1,6 @@
 # Baby Shark
 
-## <p><b>Project Description</b><p>
+## <p><b>Project Description</b>
 Baby Shark is a Javafx-based game.
   
 <p>You start your adventure as a hungry baby shark. The more you eat, the more you grow. Be careful though.
