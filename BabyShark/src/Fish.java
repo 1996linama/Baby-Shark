@@ -28,5 +28,7 @@ public abstract class Fish extends ImageView {
 	protected abstract double getHeight();
 	protected abstract double getLocationX();
 	protected abstract double getLocationY();
+	protected abstract void setLife();
+	protected abstract boolean isAlive();
 	
 }

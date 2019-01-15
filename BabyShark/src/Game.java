@@ -29,13 +29,11 @@ public class Game extends Application {
 	private Scene instructScene;
 	private Label scoreLabel;
 	private Player player;
-	//private Media media;
-	//private MediaPlayer music;
 	private StackPane root;
 	private BorderPane border;
 	private HBox topMenu;
 	private Controller controller;
-	private static boolean sharka = true;
+	private static Random random = new Random();
 	private int score = 0;
 	
 	double x = 0;
@@ -43,12 +41,7 @@ public class Game extends Application {
 
 	ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/res/background.jpg"), 900, 900, true, true));
 	ArrayList<Fish> enemies = new ArrayList<Fish>(); //stores the fish that exist on screen
-	HashMap<FishType, Fish> fishInfo = new HashMap<FishType, Fish>(); //stores a collection of fish database
-	
-	private void fillInfo() {
-		fishInfo.put(FishType.PUFFERFISH, new Pufferfish(100, 200));
-		fishInfo.put(FishType.SHARK, new Shark(100, 100));
-	}
+	ArrayList<FishType> types = new ArrayList<FishType>(Arrays.asList(FishType.values()));
 	
 	private void initialize() {
 		frame = new Frame(primaryStage);
@@ -95,19 +88,17 @@ public class Game extends Application {
 				if(controller.moveDown) { y += 1; }		
 				if(controller.moveRight) { 
 					x += 1;
-					player.flipRight(); // when player moves, sprite flips
+					player.flipRight();
 				}
 				if(controller.moveLeft) { 
 					x -= 1;
 					player.flipLeft();
 				}
-				
-				// Needs to be fixed, aka a better system of spawning fish
+
 				populateEnemies();
-				time = 0;	
-			
+				
 				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
-				updateFish(); // called everytime? might be a problem
+				updateFish();
 				updateScore();
 			}
 			
@@ -124,18 +115,21 @@ public class Game extends Application {
 	private void updateFish() {
 		for(Fish fish : new ArrayList<Fish>(enemies)) {
 			if(checkCollisions(fish)) {
-				System.out.println("Collided");
 				if(checkSize(fish)) {
 					removeFish(fish);
 				} else {
 					removeFish(player);
 					gameOver();
 				}
-			}			
+				
+			}	
+			
+			if(!fish.isAlive()) {
+				removeFish(fish);
+			}
 		}
 	}
 
-	
 	private boolean checkCollisions(Fish fish) {
 		return fish.getBoundsInParent().intersects(player.getBoundsInParent());
 	}
@@ -145,12 +139,27 @@ public class Game extends Application {
 	}
 	
 	//produce on enum type
-	private static Fish createFish(FishType type) {
+	private Fish createFish(FishType type) {
+		double fx = -300;
+		double fy = -300;
 		switch(type) {
 			case SHARK:
-				return new Shark(100, 200);
+				return new Shark(fx, fy);
+			case PUFFERFISH:
+				return new Pufferfish(fx, fy);
+			case CATFISH:
+				return new Catfish(fx, fy);
+		default:
+			break;
 		}
 		return null;
+	}
+
+	
+	private FishType randomFishType() {
+		int rand = random.nextInt(types.size());
+		return types.get(rand);
+		
 	}
 
 	private void addFish(Fish fish) {
@@ -160,6 +169,7 @@ public class Game extends Application {
 	
 	private void removeFish(Fish fish) {
 		score += fish.getScore();
+		fish.setLife();
 		root.getChildren().remove(fish);
 		enemies.remove(fish);
 	}
@@ -175,24 +185,22 @@ public class Game extends Application {
 	private void gameOver() {
 		root.getChildren().clear();
 		enemies.clear();
-		StackPane end = new StackPane();
+		VBox end = new VBox(12);
 		Label endLabel = new Label("Game Over!");
 		end.getChildren().add(endLabel);
-		//Button restart = new Button("Play Again");
-		//restart.setOnAction(e -> primaryStage.setScene(playScene));
-		//end.getChildren().add(restart);
+		Button restart = new Button("Play Again");
+		restart.setOnAction(e -> primaryStage.setScene(playScene));
+		end.getChildren().add(restart);
 		endScene = new Scene(end, 1000, 1000, Color.ALICEBLUE);
 		primaryStage.setScene(endScene);
 	}
 	
 	private void populateEnemies() {
-		if(sharka) {
-			Fish shark = new Shark(-300, 300);
-			Fish shark2 = new Shark(200, -300);
-			Fish puffer = new Pufferfish(100, -200);
-			addFish(shark);
-			addFish(puffer);
-			sharka = false;
+		
+		for(int i = enemies.size(); i < 10; i++) {
+			//randomize the enumerations
+			Fish temp = createFish(randomFishType());
+			addFish(temp);
 		}
 		
 	}

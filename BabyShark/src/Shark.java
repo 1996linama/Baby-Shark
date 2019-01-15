@@ -1,14 +1,17 @@
+
 import java.util.Random;
+
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 
 public class Shark extends Fish {
 
-	private int speed;
+	private double speed;
 	private int frequency;
 	private double x;
 	private double y;
+	private boolean reversed;
 	private boolean isAlive;
 	private int score;
 	private Random random;
@@ -28,6 +31,9 @@ public class Shark extends Fish {
 		return this.score;
 	}
 	
+	private void setDeath() {
+		
+	}
 	
 	public double getLocationX() {
 		return this.x;	
@@ -43,6 +49,7 @@ public class Shark extends Fish {
 	
 	public void setLife() {
 		isAlive = false;
+		setVisible(false);
 	}
 	
 	public boolean isAlive() {
@@ -63,17 +70,18 @@ public class Shark extends Fish {
 
 	public void run() {
 		random = new Random();
-		double y = random.nextInt((300) + (int) getHeight());
+		double y = random.nextInt(300) + -300;
 		double x;
 		this.setTranslateY(y);
 		i = -400 - getWidth(); //out of the frame
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
-				updateLocation(i, y);
+				updateLocation(i * speed, y);
 				i++;
-				if(i > 400.0) {
+				if(i > 420.0) {
 					this.stop();
+					setLife();
 				}
 			}
 			
@@ -87,7 +95,7 @@ public class Shark extends Fish {
 	}
 
 	Shark(double x, double y){
-		speed = 9000;
+		speed = 1.5;
 		isAlive = true;
 		this.score = 10;
 		setImage(fishSprite);

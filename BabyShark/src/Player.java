@@ -37,19 +37,6 @@ public class Player extends Fish {
 		this.setScaleX(1);
 	}
 	
-	public double getPX() {
-		return this.getX();
-	}
-	
-	public double getPY() {
-		return this.getY();
-	}
-	
-	public void collision() {
-		//isAlive = false;
-		
-	}
-	
 	public void updateImage(Image sprite) {
 		setImage(sprite);
 		this.width = sprite.getWidth();
@@ -62,7 +49,6 @@ public class Player extends Fish {
 		isAlive = true;
 
 	}
-
 
 	public double getSpeed() {
 		return 1;
@@ -78,34 +64,33 @@ public class Player extends Fish {
 	//handles Animation	
 	}
 
-
-	@Override
 	protected double getLocationX() {
 		return this.x;
 	}
 
-
-	@Override
 	protected double getLocationY() {
 		return this.y;
 	}
 
-
-	@Override
 	public int getScore() {
 		return 0;
 	}
 
-
-	@Override
 	public double setSpeed() {
 		return 0;
 	}
 
-
-	@Override
 	public int setFrequency() {
 		return 0;
+	}
+
+	protected void setLife() {
+		
+	}
+
+	@Override
+	protected boolean isAlive() {
+		return false;
 	}
 
 

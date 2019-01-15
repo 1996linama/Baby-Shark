@@ -1,10 +1,9 @@
 import java.util.Random;
-
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 
-public class Pufferfish extends Fish {
-	
+public class Catfish extends Fish {
+
 	private double speed;
 	private int frequency;
 	private double x;
@@ -12,9 +11,9 @@ public class Pufferfish extends Fish {
 	private boolean isAlive;
 	private int score;
 	private Random random;
-	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish3.png"));
+	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish5.png"));
 	double i;
-
+	
 	public void updateLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -27,6 +26,7 @@ public class Pufferfish extends Fish {
 	public int getScore() {
 		return this.score;
 	}
+	
 	
 	public double getLocationX() {
 		return this.x;	
@@ -41,8 +41,7 @@ public class Pufferfish extends Fish {
 	}
 	
 	public void setLife() {
-		isAlive = false;
-		setVisible(false);
+		isAlive = true;
 	}
 	
 	public boolean isAlive() {
@@ -61,10 +60,9 @@ public class Pufferfish extends Fish {
 		return frequency;
 	}
 
-
 	public void run() {
 		random = new Random();
-		double y = random.nextInt(400) + -400;
+		double y = random.nextInt((300) + (int) getHeight());
 		double x;
 		this.setTranslateY(y);
 		i = -400 - getWidth(); //out of the frame
@@ -73,14 +71,13 @@ public class Pufferfish extends Fish {
 			public void handle(long time) {
 				updateLocation(i * speed, y);
 				i++;
-				if(i > 410.0) {
-					setLife();
+				if(i > 400.0) {
 					this.stop();
 				}
 			}
 			
 		};
-		
+				
 		timer.start();
 	}
 	
@@ -88,11 +85,13 @@ public class Pufferfish extends Fish {
 		return fishSprite.getHeight();
 	}
 
-	Pufferfish(double x, double y){
-		speed = 0.8;
+	Catfish(double x, double y){
+		speed = 1.2;
 		isAlive = true;
+		this.score = 5;
 		setImage(fishSprite);
-		updateLocation(x, y);
+		this.setX(-400 - getWidth());
+		this.setY(y);
 		run();
 	}
 
@@ -100,14 +99,17 @@ public class Pufferfish extends Fish {
 		return fishSprite.getWidth();
 	}
 
+	@Override
 	protected double getSize() {
-		return Double.MAX_VALUE;
+		return getWidth() * getHeight();
 	}
 
+	@Override
 	public double setSpeed() {
 		return 0;
 	}
 
+	@Override
 	public int setFrequency() {
 		return 0;
 	}
