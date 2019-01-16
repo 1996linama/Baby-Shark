@@ -158,32 +158,12 @@ public class Game extends Application {
 	private boolean canPlayerEatEnemy(Fish fish) {
 		return fish.getSize() <= player.getSize();
 	}
-
-	private Fish createFish(FishType type) {
-		//double range = random.nextInt(3) * (random.nextBoolean() ? -1 : 1);
-		//double length = range + Math.sqrt(player.getSize() == 0 ? 64 : player.getSize());
-		switch (type) {
-		case SHARK:
-			return new Shark();
-		case PUFFERFISH:
-			return new Pufferfish();
-		case CATFISH:
-			return new Catfish();
-		case TUNA:
-			return new Tuna();
-		case GUPPY:
-			return new Guppy();
-		default:
-			break;
-		}
-		return null;
-	}
-
-	private FishType randomFishType() {
+	
+	private Fish createFish() {
 		int rand = random.nextInt(types.size());
-		return types.get(rand);
+		return new EnemyFish(types.get(rand));
 	}
-
+	
 	private void addFish(Fish fish) {
 		enemies.add(fish);
 		root.getChildren().add(fish);
@@ -220,7 +200,7 @@ public class Game extends Application {
 	private void populateEnemies() {
 		
 		while (enemies.size() < 8) {
-			addFish(createFish(randomFishType()));
+			addFish(createFish());
 		}
 	}
 

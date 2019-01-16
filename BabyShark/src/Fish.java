@@ -34,6 +34,27 @@ public abstract class Fish extends ImageView {
 		
 	}
 
+	
+	public Fish(FishType type) {
+		int reversed = random.nextInt(2);
+		
+		this.speed = type.getSpeed();
+		this.score = type.getScore();
+		isAlive = true;
+		updateImage(new Image(getClass().getResourceAsStream(type.getImage())));
+
+		if(reversed == 1) {
+			isReversed = false;
+			flipLeft();
+		} else {
+			isReversed = true;
+		}
+		
+		run();
+		
+	}
+	
+	
 	public Fish(double size) {
 	}
 
