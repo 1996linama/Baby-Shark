@@ -5,10 +5,10 @@ import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 
-public class Shark extends Fish {
+public class Guppy extends Fish {
 
 	private Random random;
-	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish6.png"));
+	private Image fishSprite = new Image(getClass().getResourceAsStream("/res/fish0.png"));
 	double i;	
 	
 
@@ -35,8 +35,8 @@ public class Shark extends Fish {
 		timer.start();
 	}
 
-	Shark(){
-		super(1.5, 10);
+	Guppy(){
+		super(1.7, 3);
 		super.updateImage(fishSprite);
 		//this.setX(-400 - getWidth());
 		//this.setY(y);

@@ -1,7 +1,5 @@
 public enum FishType {
-	PUFFERFISH, SHARK, CATFISH, TUNA;
-	
-	FishType fType;
+	PUFFERFISH, SHARK, CATFISH, TUNA, GUPPY;
 	
 
 }

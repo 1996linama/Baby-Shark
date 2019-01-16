@@ -55,20 +55,20 @@ public abstract class Fish extends ImageView {
 	}
 	
 	public double getWidth() {
-		return width;
+		return this.width;
 	}
 	
 	public double getHeight() {
-		return height;
+		return this.height;
 	}
 	
 	public double getSize() {
-		return this.getHeight() * this.getWidth();
+		return this.width * this.height;
 	}
 	
 	public void updateImage(Image sprite) {
-		this.sprite = sprite;
 		setImage(sprite);
+		this.sprite = sprite;
 		this.width = sprite.getWidth();
 		this.height = sprite.getHeight(); 
 	}
@@ -87,7 +87,7 @@ public abstract class Fish extends ImageView {
 		return this.y;
 	}
 	
-	public void setLife() {
+	public void kill() {
 		isAlive = false;
 		setVisible(false);
 	}

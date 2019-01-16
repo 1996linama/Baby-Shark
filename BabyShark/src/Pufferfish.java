@@ -20,7 +20,7 @@ public class Pufferfish extends Fish {
 				updateLocation(i * getSpeed(), y);
 				i++;
 				if(i > 420.0) {
-					setLife();
+					kill();
 					this.stop();
 				}
 			}
@@ -32,7 +32,7 @@ public class Pufferfish extends Fish {
 
 	Pufferfish(){
 		super(0.8, 0);
-		super.setImage(fishSprite);
+		super.updateImage(fishSprite);
 		//updateLocation(x, y);
 		run();
 	}

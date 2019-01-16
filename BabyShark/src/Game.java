@@ -21,7 +21,7 @@ import javafx.animation.*;
 
 
 public class Game extends Application {
-	private Stage primaryStage;
+	private Stage gameWindow;
 	private Stage menuStage;
 	private Frame frame;
 	private Scene playScene;
@@ -44,7 +44,7 @@ public class Game extends Application {
 	ArrayList<FishType> types = new ArrayList<FishType>(Arrays.asList(FishType.values()));
 	
 	private void initialize() {
-		frame = new Frame(primaryStage);
+		frame = new Frame(gameWindow);
 		controller = new Controller();
 		player = new Player();
 	}
@@ -66,7 +66,7 @@ public class Game extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
+		this.gameWindow = primaryStage;
 		root = new StackPane();
 		border = new BorderPane();
 		topMenu = new HBox();
@@ -84,8 +84,8 @@ public class Game extends Application {
 		
 		playScene = new Scene(root);
 		controller.setKeys(playScene);
-		primaryStage.setScene(playScene);
-		primaryStage.show();
+		gameWindow.setScene(playScene);
+		gameWindow.show();
 		
 		//handles controller movement. 
 		AnimationTimer at = new AnimationTimer() {
@@ -104,11 +104,11 @@ public class Game extends Application {
 					player.flipLeft();
 				}
 
+				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
+				
 				populateEnemies();	
 				
 				checkPlayerBounds();
-				
-				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
 				
 				updateFish();
 				
@@ -142,7 +142,7 @@ public class Game extends Application {
 	
 	private void updateFish() {
 		for(Fish fish : new ArrayList<Fish>(enemies)) {
-			if(player.getLocationX() != 0 && checkCollisions(fish, player)) {
+			if(player.getLocationX() != 0 && hasCollided(fish, player)) {
 				if(checkSize(fish)) {
 					player.addScore(fish.getScore());
 					removeFish(fish);
@@ -152,18 +152,20 @@ public class Game extends Application {
 				}
 				
 			}	
-			
-			/* Because this is called again */
+
+			/* remove fish if outside screen */
 			if(fish.getLocationX() > 500.0) {
 				removeFish(fish);
 			}
 		}
 	}
 
-	private boolean checkCollisions(Fish fish_one, Fish fish_two) {
-		return fish_one.getBoundsInParent().intersects(fish_two.getBoundsInParent());
+	// checks for collision of two fishes
+	private boolean hasCollided(Fish fishOne, Fish fishTwo) {
+		return fishOne.getBoundsInParent().intersects(fishTwo.getBoundsInParent());
 	}
 	
+	// compares the size to see if the enemy fish can be eaten
 	private boolean checkSize(Fish fish) {
 		return fish.getSize() <= player.getSize();
 	}
@@ -179,6 +181,8 @@ public class Game extends Application {
 				return new Catfish();
 			case TUNA:
 				return new Tuna();
+			case GUPPY:
+				return new Guppy();
 		default:
 			break;
 		}
@@ -189,7 +193,6 @@ public class Game extends Application {
 	private FishType randomFishType() {
 		int rand = random.nextInt(types.size());
 		return types.get(rand);
-		
 	}
 
 	private void addFish(Fish fish) {
@@ -197,10 +200,16 @@ public class Game extends Application {
 		root.getChildren().add(fish);
 	}
 	
+	
 	private void removeFish(Fish fish) {
-		fish.setLife();
+		fish.kill();
 		root.getChildren().remove(fish);
 		enemies.remove(fish);
+	}
+	
+	private void clear() {
+		enemies.clear();
+		root.getChildren().clear();
 	}
 	
 	private void setInstructions() {
@@ -208,20 +217,19 @@ public class Game extends Application {
 		Label instructLabel = new Label("Instructions");
 		instruct.getChildren().add(instructLabel);
 		instructScene = new Scene(instruct, 800, 600, Color.ALICEBLUE);
-		primaryStage.setScene(instructScene);
+		gameWindow.setScene(instructScene);
 	}
 	
 	private void gameOver() {
-		enemies.clear();
-		root.getChildren().clear();
+		clear();
 		VBox end = new VBox(12);
 		Label endLabel = new Label("Game Over!");
 		end.getChildren().add(endLabel);
 		Button restart = new Button("Play Again");
-		restart.setOnAction(e -> primaryStage.setScene(playScene));
+		restart.setOnAction(e -> gameWindow.setScene(playScene));
 		end.getChildren().add(restart);
 		endScene = new Scene(end, 1000, 1000, Color.ALICEBLUE);
-		primaryStage.setScene(endScene);
+		gameWindow.setScene(endScene);
 	}
 	
 	private void populateEnemies() {
@@ -231,14 +239,14 @@ public class Game extends Application {
 			addFish(temp);
 		}
 		
+		int numOfEnemies = 8;
 		/* naive and terrible solution to preventing overlaps in the spawning system*/
-		for(int i = enemies.size(); i < 8; i++) {
-			//randomize the enumerations
+		for(int i = enemies.size(); i < numOfEnemies; i++) {
 			boolean check = false;
 			Fish temp = null;
 			for(Fish fish: enemies) {
 				temp = createFish(randomFishType());
-				if(!checkCollisions(fish, temp)) {
+				if(!hasCollided(fish, temp)) {
 					check = true;
 				} else {
 					check = false;

@@ -15,7 +15,7 @@ public class Controller {
 	
 	/* Handles key movements for the player, may move this to Game.java */	
 	public void setKeys(Scene scene) {
-		EventHandler<KeyEvent> p = new EventHandler<KeyEvent>() {
+		EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
 				if(key.getCode() == KeyCode.UP) {
 					moveUp = true;
@@ -36,7 +36,7 @@ public class Controller {
 		};
 		
 		
-		EventHandler<KeyEvent> r = new EventHandler<KeyEvent>() {
+		EventHandler<KeyEvent> onKeyReleased = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
 				if(key.getCode() == KeyCode.UP) {
 					moveUp = false;
@@ -56,8 +56,8 @@ public class Controller {
 			}
 		};
 		
-		scene.setOnKeyPressed(p);
-		scene.setOnKeyReleased(r);
+		scene.setOnKeyPressed(onKeyPressed);
+		scene.setOnKeyReleased(onKeyReleased);
 		
 	}
 

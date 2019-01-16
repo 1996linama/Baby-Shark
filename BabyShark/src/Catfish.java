@@ -22,7 +22,7 @@ public class Catfish extends Fish {
 				i++;
 				if(i > 420.0) {
 					this.stop();
-					setLife();
+					kill();
 				}
 			}
 			
@@ -33,7 +33,7 @@ public class Catfish extends Fish {
 	
 	Catfish(){
 		super(1.2, 5);
-		super.setImage(fishSprite);
+		super.updateImage(fishSprite);
 		//this.setX(-400 - getWidth());
 		//this.setY(y);
 		run();

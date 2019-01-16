@@ -26,7 +26,7 @@ public class Tuna extends Fish {
 				i++;
 				if(i > 420.0) {
 					this.stop();
-					setLife();
+					kill();
 				}
 			}
 			
@@ -37,7 +37,7 @@ public class Tuna extends Fish {
 
 	Tuna(){
 		super(1.3, 15);
-		super.setImage(fishSprite);
+		super.updateImage(fishSprite);
 		//this.setX(-400 - getWidth());
 		//this.setY(y);
 		run();
