@@ -5,60 +5,58 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-
 public class Controller {
 	public boolean moveUp, moveDown, moveRight, moveLeft;
-	
+
 	public Controller() {
-		
+
 	}
-	
-	/* Handles key movements for the player, may move this to Game.java */	
+
+	/* Handles key movements for the player, may move this to Game.java */
 	public void setKeys(Scene scene) {
 		EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
-				if(key.getCode() == KeyCode.UP) {
+				switch (key.getCode()) {
+				case UP:
 					moveUp = true;
-				}
-				
-				if(key.getCode() == KeyCode.DOWN) {
+					break;
+				case DOWN:
 					moveDown = true;
-				}
-				
-				if(key.getCode() == KeyCode.RIGHT) {
+					break;
+				case RIGHT:
 					moveRight = true;
-				}
-				
-				if(key.getCode() == KeyCode.LEFT) {
+					break;
+				case LEFT:
 					moveLeft = true;
-				} 
+					break;
+				}
+				return;
 			}
 		};
-		
-		
+
 		EventHandler<KeyEvent> onKeyReleased = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
-				if(key.getCode() == KeyCode.UP) {
+				switch (key.getCode()) {
+				case UP:
 					moveUp = false;
-				}
-				
-				if(key.getCode() == KeyCode.DOWN) {
+					break;
+				case DOWN:
 					moveDown = false;
-				}
-				
-				if(key.getCode() == KeyCode.RIGHT) {
+					break;
+				case RIGHT:
 					moveRight = false;
-				}
-				
-				if(key.getCode() == KeyCode.LEFT) {
+					break;
+				case LEFT:
 					moveLeft = false;
+					break;
 				}
+				return;
 			}
 		};
-		
+
 		scene.setOnKeyPressed(onKeyPressed);
 		scene.setOnKeyReleased(onKeyReleased);
-		
+
 	}
 
 }
