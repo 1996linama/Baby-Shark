@@ -42,7 +42,7 @@ public class Game extends Application {
 	double y = 0;
 
 	ImageView background = new ImageView(
-			new Image(getClass().getResourceAsStream("/res/background.jpg"), 800, 800, true, true));
+			new Image(getClass().getResourceAsStream("/res/background.png"), 800, 800, true, true));
 
 //	List<Fish> enemies = new ArrayList<Fish>();
 //	List<FishType> types = Arrays.asList(FishType.values());
@@ -53,6 +53,12 @@ public class Game extends Application {
 		enemyController = new EnemyController();
 		player = new Player();
 	}
+	
+	
+	private void loadObjects() {
+		
+	}
+	
 	
 	public static Player getPlayer() {
 		return player;
@@ -131,7 +137,6 @@ public class Game extends Application {
 	public static void addToScreen(Node node) {
 		root.getChildren().add(node);
 	}
-
 	
 	public static void removeFromScreen(Node node) {
 		root.getChildren().remove(node);

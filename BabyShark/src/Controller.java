@@ -11,10 +11,7 @@ public class Controller {
 	double x = 0;
 	double y = 0;
 	
-	public Controller() {
-
-
-	}
+	public Controller() {}
 	
 	public void move() {
 		if (moveUp) {

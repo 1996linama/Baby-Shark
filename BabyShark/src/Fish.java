@@ -15,7 +15,7 @@ public abstract class Fish extends ImageView {
 	Image sprite;
 	AnimationTimer timer;
 	Random random = new Random();
-	boolean isReversed;
+	boolean isReversed;	
 	
 	public Fish(FishType type) {
 		
@@ -66,6 +66,10 @@ public abstract class Fish extends ImageView {
 		setVisible(false);
 	}
 	
+	public boolean isColliding(Fish other) {
+		return this.getBoundsInParent().intersects(other.getBoundsInParent());
+	}
+	
 	public void updateLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -107,6 +111,14 @@ public abstract class Fish extends ImageView {
 		return height;
 	}
 
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
 	public double getSize() {
 		return this.getHeight() * this.getWidth();
 	}

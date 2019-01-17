@@ -5,50 +5,31 @@ import java.util.Random;
 
 
 public class EnemyController {
-	
-	
-	private Random random = new Random();
-	
-	
+
 	List<Fish> enemies = new ArrayList<Fish>();
-	List<FishType> types = Arrays.asList(FishType.values());
-	
 	
 	public EnemyController() {
-
-		
 	}
 	
 	public void updateFish() {
 		for (Fish fish : new ArrayList<Fish>(enemies)) {
-			if (Game.getPlayer().getX() != 0 && isColliding(fish, Game.getPlayer())) {
-				if (canPlayerEatEnemy(fish)) {
+			if (Game.getPlayer().getX() != 0 && fish.isColliding(Game.getPlayer())) {
+				if (Game.getPlayer().canPlayerEatEnemy(fish)) {
 					Game.player.addScore(fish.getScore());
 					removeFish(fish);
 				} else {
 					removeFish(Game.getPlayer());
-					//Game.gameOver("In Russia, fish eats YOU!");
 				}
 
 			}
 
-			// when fish is off screen
-			checkFishBounds(fish);
+			checkFishBounds(fish); // checks Fish off screen.
 		}
-	}
-
-	
-	private boolean isColliding(Fish fishOne, Fish fishTwo) {
-		return fishOne.getBoundsInParent().intersects(fishTwo.getBoundsInParent());
-	}
-	
-	private boolean canPlayerEatEnemy(Fish fish) {
-		return fish.getSize() <= Game.getPlayer().getSize();
 	}
 	
 	public void populateEnemies() {	
 		while (enemies.size() < 8) {
-			addFish(createFish());
+			addFish(EnemyFish.createFish());
 		}
 	}
 	
@@ -57,12 +38,6 @@ public class EnemyController {
 			removeFish(fish);
 		}
 	}
-	
-	private Fish createFish() {
-		int rand = random.nextInt(types.size());
-		return new EnemyFish(types.get(rand));
-	}
-	
 	
 	private void addFish(Fish fish) {
 		enemies.add(fish);
