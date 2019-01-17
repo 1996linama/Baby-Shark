@@ -11,15 +11,6 @@ public class Player extends Fish {
 
 	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 80, 80, true, true);
 
-	public void updateLocation(double x, double y) {
-		this.x = x;
-		this.y = y;
-		this.setX(x);
-		this.setY(y);
-		this.setTranslateX(x);
-		this.setTranslateY(y);
-	}
-
 	public void setSprite() {
 		playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 50, 50, true, true);
 		updateImage(playerSprite);

@@ -7,6 +7,7 @@ import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,13 +29,14 @@ public class Game extends Application {
 	private Frame frame;
 	private Scene playScene;
 	private Scene endScene;
-	private ScoreLabel scoreLabel = new ScoreLabel(0);
-	private Player player;
-	private StackPane root;
+	private Score scoreLabel = new Score(0);
+	public static Player player;
+	private static StackPane root;
 	private BorderPane border;
 	private HBox topMenu;
 	private Controller controller;
-	private static Random random = new Random();;
+	private EnemyController enemyController;
+	private  Random random = new Random();;
 	private AnimationTimer at;
 	double x = 0;
 	double y = 0;
@@ -42,13 +44,18 @@ public class Game extends Application {
 	ImageView background = new ImageView(
 			new Image(getClass().getResourceAsStream("/res/background.jpg"), 800, 800, true, true));
 
-	List<Fish> enemies = new ArrayList<Fish>();
-	List<FishType> types = Arrays.asList(FishType.values());
+//	List<Fish> enemies = new ArrayList<Fish>();
+//	List<FishType> types = Arrays.asList(FishType.values());
 
 	private void initialize() {
 		frame = new Frame(primaryStage);
 		controller = new Controller();
+		enemyController = new EnemyController();
 		player = new Player();
+	}
+	
+	public static Player getPlayer() {
+		return player;
 	}
 
 	private void initMusic() {
@@ -58,54 +65,44 @@ public class Game extends Application {
 		music.setCycleCount(MediaPlayer.INDEFINITE);
 		music.play();
 	}
+	
+	private void setGameWindow() {
+		root = new StackPane();
+		border = new BorderPane();
+		topMenu = new HBox();
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
-		root = new StackPane();
-		border = new BorderPane();
-		topMenu = new HBox();
-
+		setGameWindow();
 		initialize();
 		initMusic();
-
+		
 		topMenu.getChildren().add(scoreLabel);
 		border.setTop(topMenu);
-
-		root.getChildren().add(background);
-		root.getChildren().add(player);
-		root.getChildren().add(border);
+		
+		addAllToScreen(background, player, topMenu);
 
 		playScene = new Scene(root);
 		controller.setKeys(playScene);
 		primaryStage.setScene(playScene);
 		primaryStage.show();
+		
 
 		at = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
 
-				if (controller.moveUp) {
-					y -= 1;
+				controller.move(); //moves the player
+				checkPlayerBounds(); // checks player
+				enemyController.populateEnemies(); // populates the screen with enemies
+				enemyController.updateFish(); // updates the fish
+				updateScore(); // updates the score
+					
+				if(!Game.player.isVisible()) {
+					gameOver("In Russia, fish eats YOU!");
 				}
-				if (controller.moveDown) {
-					y += 1;
-				}
-				if (controller.moveRight) {
-					x += 1;
-					player.flipRight();
-
-				}
-				if (controller.moveLeft) {
-					x -= 1;
-					player.flipLeft();
-				}
-
-				player.updateLocation(x * player.getSpeed(), y * player.getSpeed());
-				checkPlayerBounds();
-				updateFish();
-				updateScore();
-				populateEnemies();
 			}
 		};
 		at.start();
@@ -122,63 +119,29 @@ public class Game extends Application {
 		if (player.getLocationY() < Frame.getMinY() + player.getHeight() / 2) {
 		}
 	}
-	
-	private void checkFishBounds(Fish fish) {
-		if (fish.isReversed && fish.getLocationX() > 480.0) {
-			removeFish(fish);
-		}
-		
-		if (fish.isReversed && fish.getLocationX() < -480.0) {
-			removeFish(fish);
-		}
-	}
 
 	private void updateScore() {
 		scoreLabel.setScore(player.getScore());
 	}
 
-	private void updateFish() {
-		for (Fish fish : new ArrayList<Fish>(enemies)) {
-			if (player.getX() != 0 && isColliding(fish, player)) {
-				if (canPlayerEatEnemy(fish)) {
-					player.addScore(fish.getScore());
-					removeFish(fish);
-				} else {
-					removeFish(player);
-					gameOver("In Russia, fish eats YOU!");
-				}
-
-			}
-
-			// when fish is off screen
-			checkFishBounds(fish);
-		}
-	}
-
-	private boolean canPlayerEatEnemy(Fish fish) {
-		return fish.getSize() <= player.getSize();
+	public static void addAllToScreen(Node ... node) {
+		root.getChildren().addAll(node);
 	}
 	
-	private Fish createFish() {
-		int rand = random.nextInt(types.size());
-		return new EnemyFish(types.get(rand));
+	public static void addToScreen(Node node) {
+		root.getChildren().add(node);
 	}
+
 	
-	private void addFish(Fish fish) {
-		enemies.add(fish);
-		root.getChildren().add(fish);
+	public static void removeFromScreen(Node node) {
+		root.getChildren().remove(node);
 	}
 
-	private void removeFish(Fish fish) {
-		fish.kill();
-		root.getChildren().remove(fish);
-		enemies.remove(fish);
-	}
-
-	private void gameOver(String why) {
+	/* Will Move This */
+	public void gameOver(String why) {
 		at.stop();
 		player = new Player();
-		enemies.clear();
+		//enemies.clear();
 		root.getChildren().clear();
 		VBox end = new VBox(12);
 		Label endLabel = new Label("Game Over!");
@@ -197,16 +160,7 @@ public class Game extends Application {
 		primaryStage.setScene(endScene);
 	}
 
-	private void populateEnemies() {
-		
-		while (enemies.size() < 8) {
-			addFish(createFish());
-		}
-	}
 
-	private boolean isColliding(Fish fishOne, Fish fishTwo) {
-		return fishOne.getBoundsInParent().intersects(fishTwo.getBoundsInParent());
-	}
 
 	/*****************************************
 	 * Window Controller

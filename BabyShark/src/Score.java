@@ -3,8 +3,8 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class ScoreLabel extends Label {
-	public ScoreLabel(double score) {
+public class Score extends Label {
+	public Score(double score) {
 		super();
 		setScore(0);		
 		setFont(new Font("Arial", 18.0));

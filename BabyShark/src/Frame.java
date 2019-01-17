@@ -31,12 +31,4 @@ public class Frame extends Stage {
 
 	}
 
-	public Stage getMenu() {
-		return null;
-	}
-
-	public void setMenu() {
-
-	}
-
 }

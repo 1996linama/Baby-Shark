@@ -8,8 +8,32 @@ import javafx.scene.input.KeyEvent;
 public class Controller {
 	public boolean moveUp, moveDown, moveRight, moveLeft;
 
+	double x = 0;
+	double y = 0;
+	
 	public Controller() {
 
+
+	}
+	
+	public void move() {
+		if (moveUp) {
+			y -= 1;
+		}
+		if (moveDown) {
+			y += 1;
+		}
+		if (moveRight) {
+			x += 1;
+			Game.getPlayer().flipRight();
+
+		}
+		if (moveLeft) {
+			x -= 1;
+			Game.getPlayer().flipLeft();
+		}
+
+		Game.getPlayer().updateLocation(x * Game.getPlayer().getSpeed(), y * Game.getPlayer().getSpeed());
 	}
 
 	/* Handles key movements for the player, may move this to Game.java */

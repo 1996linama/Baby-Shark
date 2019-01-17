@@ -13,49 +13,27 @@ public abstract class Fish extends ImageView {
 	int score;
 	ImageView fishSprite;
 	Image sprite;
+	AnimationTimer timer;
 	Random random = new Random();
 	boolean isReversed;
-	boolean isAlive;
-
-	public Fish(double speed, int score, String string) {
-		int reversed = random.nextInt(2);
-		
-		this.speed = speed;
-		this.score = score;
-		isAlive = true;
-		updateImage(new Image(getClass().getResourceAsStream(string)));
-
-		if(reversed == 1) {
-			isReversed = false;
-			flipLeft();
-		} else {
-			isReversed = true;
-		}
-		
-	}
-
 	
 	public Fish(FishType type) {
-		int reversed = random.nextInt(2);
+		
+		isReversed = random.nextBoolean();
 		
 		this.speed = type.getSpeed();
 		this.score = type.getScore();
-		isAlive = true;
 		updateImage(new Image(getClass().getResourceAsStream(type.getImage())));
-
-		if(reversed == 1) {
-			isReversed = false;
+		x = -400 - getWidth() - random.nextInt(200); // out of the frame
+		y = random.nextInt(800) - 400;
+		
+		if(isReversed) {
 			flipLeft();
-		} else {
-			isReversed = true;
 		}
 		
+		updateLocation(x, y);
 		run();
 		
-	}
-	
-	
-	public Fish(double size) {
 	}
 
 	public Fish(double speed, String picUrl) {
@@ -63,44 +41,31 @@ public abstract class Fish extends ImageView {
 		updateImage(new Image(getClass().getResourceAsStream(picUrl)));
 	}
 
-	public void run() {
-		random = new Random();
-		y = random.nextInt(800) - 400;
-		this.setTranslateY(y);
-		if(isReversed) {
-			x = -400 - getWidth() - random.nextInt(200); // out of the frame
-		} else {
-			x = 400 + getWidth() + random.nextInt(200);
-		}
-		
-		AnimationTimer timer = new AnimationTimer() {
+	public void run() {	
+
+		timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
 				updateLocation(x, y);
-				if(isReversed) {
-					x += getSpeed();
-					
-					if (x > 480.0) {
-						this.stop();
-						kill();
-					}
-					
-				} else {
-					x -= getSpeed();
-					
-					if (x < -480.0) {
-						this.stop();
-						kill();
-					}
+				x += getSpeed();
+				if(isOffscreen(x)) {
+					timer.stop();
+					kill();
 				}
-				
 			}
-
 		};
-
+		
 		timer.start();
 	}
+	
+	public boolean isOffscreen(double x) {
+		return (!isReversed && x > 480.0) || (isReversed && x < -480.0);
+	}
 
+	public void kill() {
+		setVisible(false);
+	}
+	
 	public void updateLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -146,7 +111,6 @@ public abstract class Fish extends ImageView {
 		return this.getHeight() * this.getWidth();
 	}
 	
-
 	public void updateImage(Image sprite) {
 		this.sprite = sprite;
 		setImage(sprite);
@@ -160,15 +124,6 @@ public abstract class Fish extends ImageView {
 
 	public double getLocationY() {
 		return this.y;
-	}
-
-	public void kill() {
-		isAlive = false;
-		setVisible(false);
-	}
-
-	public boolean isAlive() {
-		return isAlive;
 	}
 
 }
