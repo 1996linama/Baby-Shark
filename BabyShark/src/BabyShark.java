@@ -18,19 +18,22 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class BabyShark extends Application {
-	private Stage primaryStage;
-	private Stage gameStage;
+	private static Stage primaryStage;
 	private Frame frame;
-	private Scene playScene;
+	private static Scene playScene;
+	private static Scene mainMenu;
 	private Scene endScene;
+	private static Scene currScene;
 	
+	public static StackPane root2; //TODO: will rename
 	public static StackPane root;
 
 	private void initializeWindow() {
 		frame = new Frame(primaryStage);
 		root = new StackPane();
+		root2 = new StackPane();
 		playScene = new Game(root); // GameWindow is a scene!!
-			
+		mainMenu = new MainMenu(root2);
 	}
 
 
@@ -38,11 +41,30 @@ public class BabyShark extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		initializeWindow();
-		
-		primaryStage.setScene(playScene);
+		primaryStage.setScene(mainMenu);		
 		primaryStage.show();
-		
+	
+	}
+	
+	public static Stage getStage() {
+		return primaryStage;
+	}
 
+	
+	public static void setPlayScene() {
+		primaryStage.setScene(playScene);
+	}
+	
+	public static Scene getPlayScene() {
+		return playScene;
+	}
+	
+	public static void setMenu() {
+		primaryStage.setScene(mainMenu);
+	}
+	
+	public static Scene getMenu() {
+		return mainMenu;
 	}
 
 	public static void addAllToScreen(Node ... node) {
@@ -56,9 +78,6 @@ public class BabyShark extends Application {
 	public static void removeFromScreen(Node node) {
 		root.getChildren().remove(node);
 	}
-	
-
-	
 
 	/* Will Move This */
 	/*

@@ -29,11 +29,8 @@ public class Game extends Scene {
 	
 	public Game(Parent primary) {
 		super(primary);
-		loadObjects();
-		setGameWindow();
-		loadMusic();
-		controller.setKeys(this);
-		operate();
+		setScene();
+
 	}
 	
 	private void operate() {
@@ -56,6 +53,19 @@ public class Game extends Scene {
 		at.start();
 		
 	}
+	
+	
+	public void setScene() {
+		
+		loadObjects();
+		setGameWindow();
+		loadMusic();
+		controller.setKeys(this);
+		operate();
+		
+	}
+	
+	
 	private void updateScore() {
 		scoreLabel.setScore(player.getScore());
 	}
