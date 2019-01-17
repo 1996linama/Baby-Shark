@@ -1,4 +1,5 @@
-# Baby Shark
+# Baby Shark 
+<img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/shark1.png" width="180" height="100" />
 
 ## <b>Project Description</b>
 Baby Shark is a Javafx-based game.
@@ -12,6 +13,7 @@ Created by Lina Ma (@1996linama), inspired by one of her many favorite games she
 <p>
   
 ## <b> Demo </b> 
+<img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/screenshot/screenshot.png" width="400" height="300" />
 
 ## <b> Project Status </b> 
 Currently ongoing.<p>
