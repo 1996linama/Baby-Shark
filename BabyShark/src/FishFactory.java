@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.Random;
 
 
-public class EnemyController {
+public class FishFactory {
 
 	List<Fish> enemies = new ArrayList<Fish>();
 	
-	public EnemyController() {
+	public FishFactory() {
 	}
 	
 	public void updateFish() {
 		for (Fish fish : new ArrayList<Fish>(enemies)) {
 			if (Game.getPlayer().getX() != 0 && fish.isColliding(Game.getPlayer())) {
 				if (Game.getPlayer().canPlayerEatEnemy(fish)) {
-					Game.player.addScore(fish.getScore());
+					Game.getPlayer().addScore(fish.getScore());
 					removeFish(fish);
 				} else {
 					removeFish(Game.getPlayer());
@@ -28,7 +28,7 @@ public class EnemyController {
 	}
 	
 	public void populateEnemies() {	
-		while (enemies.size() < 8) {
+		while (enemies.size() < 12) {
 			addFish(EnemyFish.createFish());
 		}
 	}

@@ -7,7 +7,6 @@ public class EnemyFish extends Fish {
 	
 	public static Fish createFish() {
 		int rand = random.nextInt(FishType.values().length);
-
 		return new EnemyFish(FishType.values()[rand]);
 	}
 	
