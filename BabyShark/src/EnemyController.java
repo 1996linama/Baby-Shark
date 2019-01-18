@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 
-public class FishFactory {
+public class EnemyController {
 
 	List<Fish> enemies = new ArrayList<Fish>();
 	
-	public FishFactory() {
+	public EnemyController() {
 	}
 	
 	public void updateFish() {

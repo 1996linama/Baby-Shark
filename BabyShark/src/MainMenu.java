@@ -24,6 +24,7 @@ public class MainMenu extends Scene {
 			}
 		});
 		
+		/*
 		Button instruct = new Button("How to Play");
 		play.setOnAction(e -> {
 			try {
@@ -32,7 +33,7 @@ public class MainMenu extends Scene {
 				e1.printStackTrace();
 			}
 		});
-
+	*/
 		Button quit = new Button("Quit");
 		quit.setOnAction(e -> {
 			try {

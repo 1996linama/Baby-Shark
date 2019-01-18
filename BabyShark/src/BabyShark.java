@@ -43,7 +43,6 @@ public class BabyShark extends Application {
 		initializeWindow();
 		primaryStage.setScene(mainMenu);		
 		primaryStage.show();
-	
 	}
 	
 	public static Stage getStage() {
@@ -52,7 +51,7 @@ public class BabyShark extends Application {
 
 	
 	public static void setPlayScene() {
-		primaryStage.setScene(playScene);
+		BabyShark.getStage().setScene(playScene);
 	}
 	
 	public static Scene getPlayScene() {

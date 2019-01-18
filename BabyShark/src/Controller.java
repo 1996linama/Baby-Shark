@@ -15,22 +15,22 @@ public class Controller {
 	
 	public void move() {
 		if (moveUp) {
-			y -= 1;
+			y -= Game.getPlayer().getSpeed();
 		}
 		if (moveDown) {
-			y += 1;
+			y += Game.getPlayer().getSpeed();
 		}
 		if (moveRight) {
-			x += 1;
+			x += Game.getPlayer().getSpeed();
 			Game.getPlayer().flipRight();
 
 		}
 		if (moveLeft) {
-			x -= 1;
+			x -= Game.getPlayer().getSpeed();
 			Game.getPlayer().flipLeft();
 		}
-
-		Game.getPlayer().updateLocation(x * Game.getPlayer().getSpeed(), y * Game.getPlayer().getSpeed());
+		
+		Game.getPlayer().updateLocation(x, y);
 	}
 
 	/* Handles key movements for the player, may move this to Game.java */

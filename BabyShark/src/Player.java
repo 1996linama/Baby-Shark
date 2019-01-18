@@ -46,6 +46,7 @@ public class Player extends Fish {
 
 	@Override
 	public void run() {
+		//handles the animation of the sprite
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
@@ -58,8 +59,6 @@ public class Player extends Fish {
 		};
 
 		timer.start();
-		
-		
 	}
 
 }

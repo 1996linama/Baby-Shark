@@ -21,7 +21,7 @@ public class Game extends Scene {
 	private AnimationTimer at;
 
 	private Controller controller;	
-	private FishFactory enemyController;
+	private EnemyController enemyController;
 
 	ImageView background = new ImageView(
 			new Image(getClass().getResourceAsStream("/res/background.png"), 800, 800, true, true));
@@ -39,7 +39,7 @@ public class Game extends Scene {
 			public void handle(long time) {
 					
 				controller.move(); //moves the player
-				//checkPlayerBounds(); // checks player
+				checkPlayerBounds(); // checks player
 				enemyController.populateEnemies(); // populates the screen with enemies
 				enemyController.updateFish(); // updates the fish
 				updateScore(); // updates the score
@@ -56,7 +56,6 @@ public class Game extends Scene {
 	
 	
 	public void setScene() {
-		
 		loadObjects();
 		setGameWindow();
 		loadMusic();
@@ -72,7 +71,7 @@ public class Game extends Scene {
 	
 	private void loadObjects() {
 		controller = new Controller();
-		enemyController = new FishFactory();
+		enemyController = new EnemyController();
 		player = new Player();
 	}
 	
@@ -114,17 +113,23 @@ public class Game extends Scene {
 		BabyShark.root.getChildren().remove(node);
 	}
 	
-	/*
+	
 	private void checkPlayerBounds() {
-		if (player.getLocationX() > Frame.getMaxX() - player.getWidth() / 2) {
+		double locationX = player.getLocationX();
+		double locationY = player.getLocationY();
+		if (locationX > Frame.getMaxX() + player.getWidth()) {
+			controller.x = Frame.getMinX() - player.getWidth();
 		}
-		if (player.getLocationX() < Frame.getMinX() + player.getWidth() / 2) {
+		if (locationX < Frame.getMinX() - player.getWidth()) {
+			controller.x = Frame.getMaxX() + player.getWidth();
 		}
-		if (player.getLocationY() > Frame.getMaxY() - player.getHeight() / 2) {
+		if (locationY > Frame.getMaxY() - player.getHeight()) {
+			controller.y = Frame.getMaxY() - player.getHeight();
 		}
-		if (player.getLocationY() < Frame.getMinY() + player.getHeight() / 2) {
+		if (locationY < Frame.getMinY() + player.getHeight()) {
+			controller.y = Frame.getMinY() + player.getHeight();
 		}
 	}
-*/
+
 	
 }
