@@ -20,12 +20,14 @@ public class Game extends Scene {
 	private static Player player;
 	private AnimationTimer at;
 
+	private static int currentLevel = 0;
 	private Controller controller;	
 	private EnemyController enemyController;
 
 	ImageView background = new ImageView(
 			new Image(getClass().getResourceAsStream("/res/background.png"), 800, 800, true, true));
 
+	private final static int[] levels = {0, 20, 40, 70, 120, 200, 250, 300, 400};
 	
 	public Game(Parent primary) {
 		super(primary);
@@ -43,7 +45,7 @@ public class Game extends Scene {
 				enemyController.populateEnemies(); // populates the screen with enemies
 				enemyController.updateFish(); // updates the fish
 				updateScore(); // updates the score
-				
+				setLevel();
 				if(player.isVisible()) {
 				//	gameOver("In Russia, fish eats YOU!");
 				}
@@ -54,7 +56,6 @@ public class Game extends Scene {
 		
 	}
 	
-	
 	public void setScene() {
 		loadObjects();
 		setGameWindow();
@@ -63,7 +64,6 @@ public class Game extends Scene {
 		operate();
 		
 	}
-	
 	
 	private void updateScore() {
 		scoreLabel.setScore(player.getScore());
@@ -95,6 +95,22 @@ public class Game extends Scene {
 		music.setAutoPlay(true);
 		music.setCycleCount(MediaPlayer.INDEFINITE);
 		music.play();
+	}
+	
+	public static int getLevel() {
+		return currentLevel;
+	}
+	
+	public static int getLevelNum() {
+		return levels[currentLevel];
+	}
+	
+	public void setLevel() {
+		for(int i = 0; i < levels.length; i++) {
+			if(scoreLabel.getScore() >= levels[i] && scoreLabel.getScore() <= levels[i + 1]) {
+				currentLevel = i;
+			}
+		}
 	}
 
 	public Scene getPlayScene() {

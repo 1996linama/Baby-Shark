@@ -9,9 +9,11 @@ public class Player extends Fish {
 	
 	
 	private String[] playerSprites = {"res/shark1.png","res/shark2.png","res/shark3.png", "res/shark4.png", "res/shark3.png", "res/shark2.png", "res/shark1.png", }; 
+	
 	private int tick = 0;
 	private int sizeIncrease = 0;
-
+	private int playerLevel = 0;
+	
 	public Player() {
 		super(4, "/res/shark.png");
 		setSprite();
@@ -20,10 +22,17 @@ public class Player extends Fish {
 	
 	public void addScore(int fishScore) {
 		score = score + fishScore;
-		sizeIncrease = fishScore;
+	}
+	
+	private boolean isLeveled() {
+		if(playerLevel != Game.getLevel()) {
+			playerLevel = Game.getLevel();
+			return true;
+		}
+		return false;
 	}
 
-	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 60, 60, true, true);
+	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 60, 40, true, true);
 
 	public void setSprite() {
 		this.width = playerSprite.getWidth();
@@ -39,8 +48,13 @@ public class Player extends Fish {
 	@Override
 	public void updateImage(Image sprite) {
 		setImage(sprite);
-		this.width = this.width + sizeIncrease/2;
-		this.height = this.height + sizeIncrease/2;
+
+		if(isLeveled()) {
+			this.sizeIncrease = Game.getLevelNum() / 5;
+		}
+		
+		this.width = this.width + sizeIncrease;
+		this.height = this.height + sizeIncrease;
 		this.sizeIncrease = 0; //resets the increase
 	}
 

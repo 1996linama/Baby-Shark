@@ -7,6 +7,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
 public class Score extends Label {
+
+	int score;
+	
 	public Score(double score) {
 		super();
 		setScore(0);		
@@ -18,7 +21,13 @@ public class Score extends Label {
 		setTextAlignment(TextAlignment.LEFT);		
 	}
 
+	
+	public int getScore() {
+		return score;
+	}
+	
 	public void setScore(int score) {
+		this.score = score;
 		setText("Score: " + score);
 	}
 
