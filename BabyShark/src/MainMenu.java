@@ -1,12 +1,16 @@
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class MainMenu extends Scene {
 	
 	private VBox menuOptions;
 	private BorderPane border;
+	ImageView background = new ImageView(
+			new Image(getClass().getResourceAsStream("/res/menubg.png"), 800, 800, true, true));
 	
 	public MainMenu(Parent primary) {
 	
@@ -46,7 +50,7 @@ public class MainMenu extends Scene {
 		menuOptions.getChildren().addAll(play, quit);
 		border.setCenter(menuOptions);
 		
-		BabyShark.root2.getChildren().add(border);
+		BabyShark.root2.getChildren().addAll(background, border);
 		
 	}
 }

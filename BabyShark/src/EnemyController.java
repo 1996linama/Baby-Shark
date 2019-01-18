@@ -28,7 +28,7 @@ public class EnemyController {
 	}
 	
 	public void populateEnemies() {	
-		while (enemies.size() < 12) {
+		while (enemies.size() < Game.getCurrLevel().getNumOfEnemies()) {
 			addFish(EnemyFish.createFish());
 		}
 	}
