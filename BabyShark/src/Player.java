@@ -12,7 +12,7 @@ public class Player extends Fish {
 	
 	private int tick = 0;
 	private int sizeIncrease = 0;
-	private int playerLevel = 0;
+	private Level playerLevel = Level.LEVEL_ZERO;
 	
 	public Player() {
 		super(4, "/res/shark.png");
@@ -25,10 +25,11 @@ public class Player extends Fish {
 	}
 	
 	private boolean isLeveled() {
-		if(playerLevel != Game.getLevel()) {
-			playerLevel = Game.getLevel();
+		if(playerLevel != Game.getCurrLevel()) {
+			playerLevel = Game.getCurrLevel();
 			return true;
 		}
+		
 		return false;
 	}
 
@@ -50,7 +51,7 @@ public class Player extends Fish {
 		setImage(sprite);
 
 		if(isLeveled()) {
-			this.sizeIncrease = Game.getLevelNum() / 5;
+			this.sizeIncrease = Game.getCurrLevel().getSizeIncrease();
 		}
 		
 		this.width = this.width + sizeIncrease;
@@ -66,6 +67,7 @@ public class Player extends Fish {
 			public void handle(long now) {
 				playerSprite = new Image(getClass().getResourceAsStream(playerSprites[tick++]), width, height, true, true);
 				updateImage(playerSprite);
+				setSpeed(playerLevel.getPlayerSpeed());
 				if (tick >= playerSprites.length) {
 					tick = 0;
 				    }

@@ -8,7 +8,7 @@ import javafx.scene.text.TextAlignment;
 
 public class Score extends Label {
 
-	int score;
+	static int score;
 	
 	public Score(double score) {
 		super();
@@ -22,12 +22,12 @@ public class Score extends Label {
 	}
 
 	
-	public int getScore() {
+	public static int getScore() {
 		return score;
 	}
 	
 	public void setScore(int score) {
-		this.score = score;
+		Score.score = score;
 		setText("Score: " + score);
 	}
 
