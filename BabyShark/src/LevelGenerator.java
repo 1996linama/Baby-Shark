@@ -107,6 +107,7 @@ public class LevelGenerator {
 	
 	private int getScoreReq() {
 		minScoreRequirement = scoreRequirement;
+		maxScoreRequirement += 50;
 		return scoreRequirement;
 	}
 	
@@ -136,7 +137,8 @@ public class LevelGenerator {
 	
 	
 	private int getNumOfEnemies() {
-		maxNumOfEnemies = numOfEnemies;
+		minNumOfEnemies = numOfEnemies;
+		maxNumOfEnemies += 2;
 		return numOfEnemies;
 	}
 	
