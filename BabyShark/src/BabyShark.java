@@ -20,20 +20,22 @@ import javafx.stage.Stage;
 public class BabyShark extends Application {
 	private static Stage primaryStage;
 	private Frame frame;
-	private static Scene playScene;
+	private static Scene game;
 	private static Scene mainMenu;
-	private Scene endScene;
-	private static Scene currScene;
+	private static Scene endScene;
 	
-	public static StackPane root2; //TODO: will rename
-	public static StackPane root;
+	public static StackPane root; //TODO: will rename ALL 
+	public static StackPane root2;
+	public static StackPane root3;
 
 	private void initializeWindow() {
 		frame = new Frame(primaryStage);
 		root = new StackPane();
 		root2 = new StackPane();
-		playScene = new Game(root); // GameWindow is a scene!!
+		root3 = new StackPane();
+		game = new Game(root);
 		mainMenu = new MainMenu(root2);
+		endScene = new GameOver(root3);
 	}
 
 
@@ -48,35 +50,27 @@ public class BabyShark extends Application {
 	public static Stage getStage() {
 		return primaryStage;
 	}
-
 	
 	public static void setPlayScene() {
-		BabyShark.getStage().setScene(playScene);
+		BabyShark.getStage().setScene(game);
 	}
 	
 	public static Scene getPlayScene() {
-		return playScene;
+		return game;
 	}
 	
 	public static void setMenu() {
-		primaryStage.setScene(mainMenu);
+		BabyShark.getStage().setScene(mainMenu);
 	}
 	
 	public static Scene getMenu() {
 		return mainMenu;
 	}
-
-	public static void addAllToScreen(Node ... node) {
-		root.getChildren().addAll(node);
+	
+	public static void setGameOver() {
+		BabyShark.getStage().setScene(endScene);
 	}
 	
-	public static void addToScreen(Node node) {
-		root.getChildren().add(node);
-	}
-	
-	public static void removeFromScreen(Node node) {
-		root.getChildren().remove(node);
-	}
 
 	/* Will Move This */
 	/*

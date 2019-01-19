@@ -13,8 +13,6 @@ public class Score extends Label {
 	public Score(double score) {
 		super();
 		setScore(0);		
-		setFont(Font.font("Verdana", FontWeight.BOLD, 18.0));
-		setTextFill(Color.ORANGE);
 		setAlignment(Pos.TOP_LEFT);
 		getStylesheets().add("/style.css");
 		setId("scoreFont");

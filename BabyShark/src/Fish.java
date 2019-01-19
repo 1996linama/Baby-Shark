@@ -48,10 +48,6 @@ public abstract class Fish extends ImageView {
 			public void handle(long time) {
 				updateLocation(x, y);
 				x += getSpeed();
-				if(isOffscreen(x)) {
-					timer.stop();
-					kill();
-				}
 			}
 		};
 		

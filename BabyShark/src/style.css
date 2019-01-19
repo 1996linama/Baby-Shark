@@ -1,8 +1,32 @@
 
 #scoreFont {
-    -fx-font: 20px Verdana;
-    -fx-text-fill: linear-gradient(from 0% 0% to 100% 300%, repeat, orange 50%, red 50%);
-    -fx-stroke-width: 2;
-    -fx-stroke: black;
+    -fx-font: 25px Verdana;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+	-fx-effect: dropshadow( gaussian , rgba(255,255,255, 0.1) , 0,0,0,0.5);
+}
 
+.button {
+  -fx-background-color: #7acade;
+  -fx-border: none;
+  -fx-padding: 12px 32px;
+  -fx-text-align: center;
+  -fx-text-decoration: none;
+  -fx-display: inline-block;
+  -fx-text-fill: white;
+  -fx-font: 16px Verdana;
+
+}
+
+.button:hover {
+  -fx-background-color: #c9e2e8;
+ 
+}
+
+#game{
+    -fx-background-image: url("res/gamebg.png");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 900 506;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
 }

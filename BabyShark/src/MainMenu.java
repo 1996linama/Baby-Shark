@@ -15,6 +15,8 @@ public class MainMenu extends Scene {
 	public MainMenu(Parent primary) {
 	
 		super(primary);
+		
+		this.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 
 		menuOptions = new VBox(20);
 		border = new BorderPane();
@@ -28,16 +30,16 @@ public class MainMenu extends Scene {
 			}
 		});
 		
-		/*
+		
 		Button instruct = new Button("How to Play");
-		play.setOnAction(e -> {
+		instruct.setOnAction(e -> {
 			try {
 			//instructions
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		});
-	*/
+	
 		Button quit = new Button("Quit");
 		quit.setOnAction(e -> {
 			try {
@@ -47,9 +49,8 @@ public class MainMenu extends Scene {
 			}
 		});
 		
-		menuOptions.getChildren().addAll(play, quit);
+		menuOptions.getChildren().addAll(play, instruct, quit);
 		border.setCenter(menuOptions);
-		
 		BabyShark.root2.getChildren().addAll(background, border);
 		
 	}

@@ -14,7 +14,6 @@ public class EnemyFish extends Fish {
 		super(type);
 
 	}
-	
 
 	@Override
 	public void flipLeft() {
