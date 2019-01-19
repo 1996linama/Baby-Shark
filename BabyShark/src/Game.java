@@ -24,7 +24,7 @@ public class Game extends Scene {
 	private FishController fishController;
 
 	ImageView background = new ImageView(
-			new Image(getClass().getResourceAsStream("/res/dimmedbg2.png"), 800, 600, true, true));
+			new Image(getClass().getResourceAsStream("/res/gamebg.png"), 800, 600, true, true));
 	
 	public Game(Parent primary) {
 		super(primary);

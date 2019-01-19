@@ -44,74 +44,34 @@ class Levels {
 	
 }
 
-class LevelPair implements Comparator<LevelPair> {
-	Integer lNum;
-	Levels level;
-	
-	LevelPair(int lNum, Levels level){
-		this.lNum = lNum;
-		this.level = level;
-	}
-	
-	public Levels getLevel() {
-		return this.level;
-	}
-
-	public int compareTo(Object o) {
-		LevelPair other = (LevelPair) o;
-		if(Integer.valueOf(other.lNum) > Integer.valueOf(lNum)) {
-			return -1;
-		}
-		return 1;
-	}
-
-	@Override
-	public int compare(LevelPair arg0, LevelPair arg1) {
-		if(Integer.valueOf(arg1.lNum) > Integer.valueOf(arg0.lNum)) {
-			return -1;
-		}
-		return 1;
-	}
-	
-	
-}
-
 public class LevelGenerator {
 
 	private Random random = new Random();
-	
 	
 	public LevelGenerator() {
 		initLevels();
 		Game.setCurrentLevels(levelMap.get(Integer.valueOf(0)));
 	}
 	
-	
 	//variables initialized to RANDOM numbers for now
+	private int numberOfLevels = 20;
 	private int scoreRequirement = 0;
 	private int numOfEnemies = 12;
 	private double speed = 3.0;
 	private int playerSizeIncrease = 1;
 	private int minSizeIncrease = 1;
-	private int maxSizeIncrease = 2;	
+	private int maxSizeIncrease = 5;	
 	private int minScoreRequirement = 20;
-	private int maxScoreRequirement = 30;
-	private int minNumOfEnemies = 5;
-	private int maxNumOfEnemies = 5;
+	private int maxScoreRequirement = 50;
+	private int minNumOfEnemies = 10;
+	private int maxNumOfEnemies = 15;
 	
 
 	static HashMap<Integer, Levels> levelMap= new HashMap<Integer, Levels>();
 	static ArrayList<Levels> unvisited = new ArrayList<Levels>();
-	static PriorityQueue<LevelPair> pq = new PriorityQueue<LevelPair>(4, 
-			new Comparator<LevelPair>() {
-				public int compare(LevelPair one, LevelPair two) {
-					return one.compareTo(two);
-		}
-	});
-	
 	
 	private void initLevels() {
-		for(int i = 0; i < 20; i++) {
+		for(int i = 0; i < numberOfLevels; i++) {
 			Levels next = generateLevel(i);
 			levelMap.put(new Integer(i), next);
 			unvisited.add(next);
@@ -135,54 +95,23 @@ public class LevelGenerator {
 	}
 	
 	//this changes the level based on the score
-	//will be called every time there is a score change?
-	public static void changeLevels() {
-		
-		//checks if layer zero
-		/*
-		if(Game.getCurrentLevels() == levelMap.get(Integer.valueOf(0))) {
-			pq.add(new LevelPair(Integer.valueOf(0), Game.getCurrentLevels()));
-		} else {
-			pq.add(new LevelPair(Game.getCurrentLevels().getLevelNumber(), Game.getCurrentLevels()));
-		}
-		
-		while(!pq.isEmpty()) {
-			LevelPair curr = pq.poll(); //will be null first
-		
-			//iterate through the map in order to retrieve levels (maybe an arraylist<Levels> would be easier)
-			for (Entry<Integer, Levels> item : levelMap.entrySet()) {
-				if(Game.getScore() >= item.getValue().getScoreRequirement() && !item.getValue().getCompleted()) {
-					//curr = new LevelPair(item.getKey(), item.getValue());
-					item.getValue().setCompletion();
-					next = item.getValue();
-					//pq.add(curr);
-				}
-				
+	public static void changeLevels(int score) {	
+		for(Levels level : new ArrayList<>(unvisited)) {
+			if(score >= level.getScoreRequirement()){
+				Game.setCurrentLevels(level);
+				unvisited.remove(level);
 			}
-	
-			Game.setCurrentLevels(next);
-		*/	
-			Levels next = null;
-			for(Levels level : unvisited) {
-				if(Game.getScore() >= level.getScoreRequirement()){
-					Game.setCurrentLevels(level);
-					unvisited.remove(level);
-				}
-			}
-			
-				
 		}
-//	}
+	}
 		
 	
 	private int getScoreReq() {
 		minScoreRequirement = scoreRequirement;
 		return scoreRequirement;
-		
 	}
 	
 	private void setScoreReq() {
-		scoreRequirement += random.nextInt(maxScoreRequirement);
+		scoreRequirement += random.nextInt(maxScoreRequirement) + minScoreRequirement;
 	}
 	
 	private void setSizeIncrease() {
@@ -193,7 +122,6 @@ public class LevelGenerator {
 		return playerSizeIncrease;
 	}
 
-	
 	private void setSpeed() {
 		speed += 0.1;
 	}
@@ -202,8 +130,13 @@ public class LevelGenerator {
 		return speed;
 	}
 	
-	private void setNumOfEnemies() {}
+	private void setNumOfEnemies() {
+		numOfEnemies = random.nextInt(maxNumOfEnemies) + minNumOfEnemies;
+	}
+	
+	
 	private int getNumOfEnemies() {
+		maxNumOfEnemies = numOfEnemies;
 		return numOfEnemies;
 	}
 	
