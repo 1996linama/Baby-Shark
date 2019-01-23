@@ -8,8 +8,7 @@ public class FishController {
 
 	List<Fish> enemies = new ArrayList<Fish>();
 	
-	public FishController() {
-	}
+	public FishController() {}
 	
 	public void updateFish() {
 		for (Fish fish : new ArrayList<Fish>(enemies)) {
@@ -20,15 +19,13 @@ public class FishController {
 				} else {
 					removeFish(Game.getPlayer());
 				}
-
 			}
-
-			checkFishBounds(fish); // checks Fish off screen.
+			checkFishBounds(fish);
 		}
 	}
 	
 	public void populateEnemies() {	
-		while (enemies.size() < Game.getCurrLevel().getNumOfEnemies()) {
+		while (enemies.size() < Game.getCurrentLevels().getNumOfEnemies()) {
 			addFish(EnemyFish.createFish());
 		}
 	}
@@ -41,13 +38,17 @@ public class FishController {
 	
 	private void addFish(Fish fish) {
 		enemies.add(fish);
-		Game.addToScreen(fish);
+		Game.add(fish);
 	}
 
 	private void removeFish(Fish fish) {
 		fish.kill();
-		Game.removeFromScreen(fish);
+		Game.remove(fish);
 		enemies.remove(fish);
+	}
+	
+	public void clearEnemies() {
+		enemies.clear();
 	}
 
 }

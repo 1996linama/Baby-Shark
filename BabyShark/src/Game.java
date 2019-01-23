@@ -2,50 +2,65 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Game extends Scene {
 
+	//layout objects
 	private BorderPane border;
 	private HBox topMenu;
 	private Score scoreLabel = new Score(0);
+	private static StackPane root;
+	
+	
+	// Game Objects
 	private LevelGenerator levelGenerator;
-	private static Levels currentLevel; // currentLevel will affect player
 	private static Player player;
-	private AnimationTimer timer;
+	public static AnimationTimer timer;
 	private Controller controller;	
 	private FishController fishController;
 
+	// Game Info
+	private static Levels currentLevel; // currentLevel will affect player
+	
+	
 	ImageView background = new ImageView(
 			new Image(getClass().getResourceAsStream("/res/gamebg.png"), 800, 600, true, true));
 	
-	public Game(Parent primary) {
+	public Game(StackPane primary) {
 		super(primary);
+		root = primary;
 		setScene();
 		play();
-
 	}
 	
 	private void play() {
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
-					
+				
+				if(!player.isVisible()) {
+					timer.stop();
+					BabyShark.setGameOver();
+				}
+				
 				controller.move(); //moves the player
 				checkPlayerBounds(); // checks player
 				fishController.populateEnemies(); // populates the screen with enemies
 				fishController.updateFish(); // updates the fish
 				updateScore(); // updates the score
-				if(player.isVisible()) {
-				//	gameOver("In Russia, fish eats YOU!");
-				}
+				LevelGenerator.changeLevels(Game.getScore());
 			}
 		};
 		
@@ -58,7 +73,6 @@ public class Game extends Scene {
 		setGameLayout();
 		loadMusic();
 		controller.setKeys(this);
-		
 	}
 	
 	private void updateScore() {
@@ -82,7 +96,7 @@ public class Game extends Scene {
 		topMenu = new HBox();
 		topMenu.getChildren().add(scoreLabel);
 		border.setTop(topMenu);
-		addAllToScreen(background, player, topMenu);	
+		root.getChildren().addAll(background, player, topMenu);	
 	}
 	
 	private void loadMusic() {
@@ -93,35 +107,25 @@ public class Game extends Scene {
 		music.play();
 	}
 	
-	//new generator based
 	public static Levels getCurrentLevels() {
 		return currentLevel;
-		
 	}
 	
 	public static void setCurrentLevels(Levels level) {
 		currentLevel = level;
-	}
-
-	//enum based
-	public static Level getCurrLevel() {
-		return Level.getLevel(Score.getScore());
 	}
 	
 	public static int getScore() {
 		return Score.getScore();
 	}
 	
-	public static void addAllToScreen(Node ... node) {
-		BabyShark.root.getChildren().addAll(node);
+	public static void add(Node node) {
+		root.getChildren().add(node);
 	}
 	
-	public static void addToScreen(Node node) {
-		BabyShark.root.getChildren().add(node);
-	}
-	
-	public static void removeFromScreen(Node node) {
-		BabyShark.root.getChildren().remove(node);
+
+	public static void remove(Node node) {
+		root.getChildren().remove(node);
 	}
 	
 	private void checkPlayerBounds() {
@@ -140,6 +144,5 @@ public class Game extends Scene {
 			controller.y = Frame.getMinY() + player.getHeight();
 		}
 	}
-
 	
 }

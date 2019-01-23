@@ -9,12 +9,14 @@ public class MainMenu extends Scene {
 	
 	private VBox menuOptions;
 	private BorderPane border;
+	private StackPane root;
 	ImageView background = new ImageView(
 			new Image(getClass().getResourceAsStream("/res/menubg.png"), 800, 800, true, true));
 	
-	public MainMenu(Parent primary) {
+	public MainMenu(StackPane primary) {
 	
 		super(primary);
+		root = primary;
 		
 		this.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 
@@ -24,7 +26,7 @@ public class MainMenu extends Scene {
 		Button play = new Button("Start");
 		play.setOnAction(e -> {
 			try {
-				BabyShark.setPlayScene();
+				BabyShark.setGame();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -51,7 +53,7 @@ public class MainMenu extends Scene {
 		
 		menuOptions.getChildren().addAll(play, instruct, quit);
 		border.setCenter(menuOptions);
-		BabyShark.root2.getChildren().addAll(background, border);
+		root.getChildren().addAll(background, border);
 		
 	}
 }

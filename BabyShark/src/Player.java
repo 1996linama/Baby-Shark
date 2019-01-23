@@ -7,12 +7,12 @@ import javafx.scene.image.*;
 
 public class Player extends Fish {
 	
-	
+	//TODO: will redefine playerSprites in the constant class
 	private String[] playerSprites = {"res/shark1.png","res/shark2.png","res/shark3.png", "res/shark4.png", "res/shark3.png", "res/shark2.png", "res/shark1.png", }; 
-	
-	private int tick = 0;
+	private int frame = 0;
 	private int sizeIncrease = 0;
-	private Level playerLevel = Level.LEVEL_ZERO;
+	private Levels playerLevel = null;
+	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 60, 40, true, true);
 	
 	public Player() {
 		super(4, "/res/shark.png");
@@ -25,15 +25,13 @@ public class Player extends Fish {
 	}
 	
 	private boolean isLeveled() {
-		if(playerLevel != Game.getCurrLevel()) {
-			playerLevel = Game.getCurrLevel();
+		if(playerLevel != Game.getCurrentLevels()) {
+			playerLevel = Game.getCurrentLevels();
 			return true;
 		}
 		
 		return false;
 	}
-
-	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 60, 40, true, true);
 
 	public void setSprite() {
 		this.width = playerSprite.getWidth();
@@ -49,27 +47,27 @@ public class Player extends Fish {
 	@Override
 	public void updateImage(Image sprite) {
 		setImage(sprite);
-
 		if(isLeveled()) {
-			this.sizeIncrease = Game.getCurrLevel().getSizeIncrease();
+			this.sizeIncrease = Game.getCurrentLevels().getSizeIncrease();
+			//setSizeIncrease(Game.getCurrentLevels().getSizeIncrease());
 		}
-		
 		this.width = this.width + sizeIncrease;
 		this.height = this.height + sizeIncrease;
-		this.sizeIncrease = 0; //resets the increase
+		this.sizeIncrease = 0;
 	}
-
+	
 	@Override
 	public void run() {
 		//handles the animation of the sprite
+	
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				playerSprite = new Image(getClass().getResourceAsStream(playerSprites[tick++]), width, height, true, true);
+				playerSprite = new Image(getClass().getResourceAsStream(playerSprites[frame++]), width, height, true, true);
 				updateImage(playerSprite);
-				setSpeed(playerLevel.getPlayerSpeed());
-				if (tick >= playerSprites.length) {
-					tick = 0;
+				setSpeed(playerLevel.getSpeed());
+				if (frame >= playerSprites.length) {
+					frame = 0;
 				    }
 			}
 		};

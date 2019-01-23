@@ -4,6 +4,7 @@ public enum FishType {
 	CATFISH(1.2, 5, "/res/fish5.png"),
 	TUNA(1.3, 15, "/res/fish4.png"),
 	GUPPY(1.2, 3, "/res/fish0.png");
+	//ORCA(1.1, 30, "res/orca1.png");
 	
 	FishType fType;
 	

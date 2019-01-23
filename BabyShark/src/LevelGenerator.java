@@ -5,68 +5,29 @@ import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Random;
 
-class Levels {
-	
-	//minimum score req
-	Integer levelNum = 0;
-	int scoreReq = 0;
-	int numOfEnemies = 0;
-	double playerSpeed = 0;
-	int sizeIncrease = 0;
-	int minScoreRange = 0;
-	int maxScoreRange = 0;
-	boolean isCompleted = false;
-	
-	Levels(Integer levelNum, int score, int num, int sizeIncrease, double speed){
-		this.levelNum = levelNum;
-		this.scoreReq = score;
-		this.numOfEnemies = num;
-		this.playerSpeed = speed;
-		this.sizeIncrease = sizeIncrease;
-	}
-	
-	public int getScoreRequirement() {
-		return this.scoreReq;
-		
-	}
-	
-	public Integer getLevelNumber() {
-		return levelNum;
-	}
-	
-	public boolean getCompleted() {
-		return isCompleted;
-	}
-	
-	public void setCompletion() {
-		isCompleted = true;
-	}
-	
-}
 
 public class LevelGenerator {
 
 	private Random random = new Random();
-	
-	public LevelGenerator() {
-		initLevels();
-		Game.setCurrentLevels(levelMap.get(Integer.valueOf(0)));
-	}
-	
 	//variables initialized to RANDOM numbers for now
 	private int numberOfLevels = 20;
 	private int scoreRequirement = 0;
-	private int numOfEnemies = 12;
+	private int numOfEnemies = 10;
 	private double speed = 3.0;
 	private int playerSizeIncrease = 1;
+	//TODO: is there a better way to decrease number of variables for maxes and mins
 	private int minSizeIncrease = 1;
-	private int maxSizeIncrease = 5;	
+	private int maxSizeIncrease = 3;	
 	private int minScoreRequirement = 20;
 	private int maxScoreRequirement = 50;
 	private int minNumOfEnemies = 10;
 	private int maxNumOfEnemies = 15;
-	
 
+	public LevelGenerator() {
+		initLevels();
+		Game.setCurrentLevels(levelMap.get(Integer.valueOf(0)));
+	}
+		
 	static HashMap<Integer, Levels> levelMap= new HashMap<Integer, Levels>();
 	static ArrayList<Levels> unvisited = new ArrayList<Levels>();
 	
@@ -79,9 +40,8 @@ public class LevelGenerator {
 	}
 	
 	private Levels generateLevel(int levelnum) {
-		
 		//randomize score that is required to go onto the next level
-		setScoreReq();
+		setScoreRequirement();
 		
 		//randomize player benefits received after "leveling up"
 		setSizeIncrease();
@@ -90,8 +50,7 @@ public class LevelGenerator {
 		//randomize but increase danger to player as levels go up
 		setNumOfEnemies();
 		
-		return new Levels(new Integer(levelnum), getScoreReq(), getNumOfEnemies(), getSizeIncrease(), getSpeed());
-		
+		return new Levels(new Integer(levelnum), getScoreRequirement(), getNumOfEnemies(), getSizeIncrease(), getSpeed());
 	}
 	
 	//this changes the level based on the score
@@ -99,24 +58,23 @@ public class LevelGenerator {
 		for(Levels level : new ArrayList<>(unvisited)) {
 			if(score >= level.getScoreRequirement()){
 				Game.setCurrentLevels(level);
-				unvisited.remove(level);
+				unvisited.remove(level); 
 			}
 		}
 	}
-		
 	
-	private int getScoreReq() {
+	private int getScoreRequirement() {
 		minScoreRequirement = scoreRequirement;
 		maxScoreRequirement += 50;
 		return scoreRequirement;
 	}
 	
-	private void setScoreReq() {
-		scoreRequirement += random.nextInt(maxScoreRequirement) + minScoreRequirement;
+	private void setScoreRequirement() {
+		scoreRequirement = randomize(maxScoreRequirement, minScoreRequirement);
 	}
 	
 	private void setSizeIncrease() {
-		playerSizeIncrease += random.nextInt(maxSizeIncrease) + minSizeIncrease;
+		playerSizeIncrease = randomize(maxSizeIncrease, minSizeIncrease);
 	}
 
 	private int getSizeIncrease() {
@@ -132,14 +90,18 @@ public class LevelGenerator {
 	}
 	
 	private void setNumOfEnemies() {
-		numOfEnemies = random.nextInt(maxNumOfEnemies) + minNumOfEnemies;
+		numOfEnemies = randomize(maxNumOfEnemies, minNumOfEnemies);
 	}
 	
 	
 	private int getNumOfEnemies() {
 		minNumOfEnemies = numOfEnemies;
-		maxNumOfEnemies += 2;
+		maxNumOfEnemies += randomize(2, 0);
 		return numOfEnemies;
+	}
+	
+	private int randomize(int max, int min) {
+		return random.nextInt(max - min) + min;
 	}
 	
 }

@@ -17,25 +17,23 @@ public abstract class Fish extends ImageView {
 	Random random = new Random();
 	boolean isReversed;	
 	
+	// used for Enemies
 	public Fish(FishType type) {
-		
-		isReversed = random.nextBoolean();
-		
-		this.speed = type.getSpeed();
-		this.score = type.getScore();
+		setSpeed(type.getSpeed());
+		setScore(type.getScore());
 		updateImage(new Image(getClass().getResourceAsStream(type.getImage())));
 		x = -400 - getWidth() - random.nextInt(200); // out of the frame
 		y = random.nextInt(800) - 400;
-		
+		isReversed = random.nextBoolean();
 		if(isReversed) {
 			flipLeft();
 		}
 		
 		updateLocation(x, y);
 		run();
-		
 	}
 
+	// used for player
 	public Fish(double speed, String picUrl) {
 		this.speed = speed;
 		updateImage(new Image(getClass().getResourceAsStream(picUrl)));

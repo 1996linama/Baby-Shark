@@ -6,19 +6,19 @@ public class Frame extends Stage {
 	private final static int height = 600;
 	private final static String BS_TITLE = "Baby Shark";
 
-	public static int getMinX() {
+	public final static int getMinX() {
 		return -width / 2;
 	}
 
-	public static int getMaxX() {
+	public final static int getMaxX() {
 		return width / 2;
 	}
 
-	public static int getMinY() {
+	public final static int getMinY() {
 		return -height / 2;
 	}
 
-	public static int getMaxY() {
+	public final static int getMaxY() {
 		return height / 2;
 	}
 
@@ -27,7 +27,6 @@ public class Frame extends Stage {
 		primaryStage.setWidth(width);
 		primaryStage.setTitle(BS_TITLE);
 		primaryStage.setResizable(false);
-
 	}
 
 }
