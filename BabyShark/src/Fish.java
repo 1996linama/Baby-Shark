@@ -40,7 +40,6 @@ public abstract class Fish extends ImageView {
 	}
 
 	public void run() {	
-
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
@@ -48,7 +47,6 @@ public abstract class Fish extends ImageView {
 				x += getSpeed();
 			}
 		};
-		
 		timer.start();
 	}
 	

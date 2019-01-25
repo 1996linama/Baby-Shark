@@ -10,6 +10,7 @@ public class MainMenu extends Scene {
 	private VBox menuOptions;
 	private BorderPane border;
 	private StackPane root;
+	private Button play, instruct, quit;
 	ImageView background = new ImageView(
 			new Image(getClass().getResourceAsStream("/res/menubg.png"), 800, 800, true, true));
 	
@@ -19,11 +20,8 @@ public class MainMenu extends Scene {
 		root = primary;
 		
 		this.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+		initialize();
 
-		menuOptions = new VBox(20);
-		border = new BorderPane();
-		
-		Button play = new Button("Start");
 		play.setOnAction(e -> {
 			try {
 				BabyShark.setGame();
@@ -32,8 +30,6 @@ public class MainMenu extends Scene {
 			}
 		});
 		
-		
-		Button instruct = new Button("How to Play");
 		instruct.setOnAction(e -> {
 			try {
 			//instructions
@@ -42,7 +38,6 @@ public class MainMenu extends Scene {
 			}
 		});
 	
-		Button quit = new Button("Quit");
 		quit.setOnAction(e -> {
 			try {
 				System.exit(0);
@@ -55,6 +50,15 @@ public class MainMenu extends Scene {
 		border.setCenter(menuOptions);
 		root.getChildren().addAll(background, border);
 		
+	}
+	
+	
+	private void initialize() {
+		menuOptions = new VBox(20);
+		border = new BorderPane();
+		play = new Button("Start");
+		instruct = new Button("How to Play");
+		quit = new Button("Quit");
 	}
 }
 

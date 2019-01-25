@@ -100,8 +100,7 @@ public class Game extends Scene {
 	}
 	
 	private void loadMusic() {
-		Media media = new Media(getClass().getResource("/res/bgm.mp3").toString());
-		MediaPlayer music = new MediaPlayer(media);
+		MediaPlayer music = new MediaPlayer(new Media(getClass().getResource("/res/bgm.mp3").toString()));
 		music.setAutoPlay(true);
 		music.setCycleCount(MediaPlayer.INDEFINITE);
 		music.play();
@@ -144,5 +143,5 @@ public class Game extends Scene {
 			controller.y = Frame.getMinY() + player.getHeight();
 		}
 	}
-	
+
 }

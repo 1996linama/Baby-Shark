@@ -6,6 +6,10 @@
 	-fx-effect: dropshadow( gaussian , rgba(255,255,255, 0.1) , 0,0,0,0.5);
 }
 
+.label {
+    -fx-font: 25px Verdana;	
+}
+
 .button {
   -fx-background-color: #7acade;
   -fx-border: none;

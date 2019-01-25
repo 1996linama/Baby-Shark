@@ -17,6 +17,7 @@ public class GameOver extends Scene {
 	}
 
 	private void setGameOverLayout() {
+		this.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 		end = new VBox(12);
 		gameOver = new Label("Game Over!");
 		end.getChildren().add(gameOver);
