@@ -6,43 +6,50 @@ import java.util.Random;
 
 public class FishController {
 
-	List<Fish> enemies = new ArrayList<Fish>();
+	List<EnemyFish> enemies = new ArrayList<EnemyFish>();
+	int numOfEnemies;
 	
 	public FishController() {}
 	
 	public void updateFish() {
-		for (Fish fish : new ArrayList<Fish>(enemies)) {
+		for (EnemyFish fish : new ArrayList<EnemyFish>(enemies)) {
 			if (Game.getPlayer().getX() != 0 && fish.isColliding(Game.getPlayer())) {
 				if (Game.getPlayer().canPlayerEatEnemy(fish)) {
-					Game.getPlayer().addScore(fish.getScore());
+					Game.setScore(fish.getFishValue());
 					removeFish(fish);
 				} else {
-					removeFish(Game.getPlayer());
+					removePlayer(Game.getPlayer());
 				}
 			}
-			checkFishBounds(fish);
+			
+			if(!fish.isVisible()) {
+				removeFish(fish);
+			}
+
 		}
 	}
 	
 	public void populateEnemies() {	
-		while (enemies.size() < Game.getCurrentLevels().getNumOfEnemies()) {
+		while (enemies.size() < numOfEnemies) {
 			addFish(EnemyFish.createFish());
 		}
 	}
 	
-	private void checkFishBounds(Fish fish) {
-		if (fish.isOffscreen(fish.getLocationX())) {
-			removeFish(fish);
-		}
+	public void setNumOfEnemies(int numOfEnemies) {
+		this.numOfEnemies = numOfEnemies;
 	}
 	
-	private void addFish(Fish fish) {
+	private void addFish(EnemyFish fish) {
 		enemies.add(fish);
 		Game.add(fish);
 	}
+	
+	private void removePlayer(Player player) {
+		player.kill();
+		Game.remove(player);
+	}
 
 	private void removeFish(Fish fish) {
-		fish.kill();
 		Game.remove(fish);
 		enemies.remove(fish);
 	}

@@ -6,7 +6,7 @@ import javafx.scene.layout.StackPane;
 public class GameTest {
 	
 	Player player = new Player();
-	Fish target = new EnemyFish(FishType.CATFISH);
+	EnemyFish target = new EnemyFish(FishType.CATFISH);
 	FishController fController = new FishController();
 	
 	@Test
@@ -33,6 +33,8 @@ public class GameTest {
 		
 		Assert.assertEquals(false, target.isVisible());
 	}
+	
+	
 	
 }
 

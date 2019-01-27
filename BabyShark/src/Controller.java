@@ -23,7 +23,6 @@ public class Controller {
 		if (moveRight) {
 			x += Game.getPlayer().getSpeed();
 			Game.getPlayer().flipRight();
-
 		}
 		if (moveLeft) {
 			x -= Game.getPlayer().getSpeed();

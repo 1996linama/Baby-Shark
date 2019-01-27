@@ -9,17 +9,19 @@ public class MainMenu extends Scene {
 	
 	private VBox menuOptions;
 	private BorderPane border;
-	private StackPane root;
+
 	private Button play, instruct, quit;
 	ImageView background = new ImageView(
-			new Image(getClass().getResourceAsStream("/res/menubg.png"), 800, 800, true, true));
+			new Image(
+					getClass().getResourceAsStream("/res/menubg.png"),
+					800, 800, true, true));
 	
-	public MainMenu(StackPane primary) {
+	public MainMenu(StackPane root) {
 	
-		super(primary);
-		root = primary;
+		super(root);
 		
-		this.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+		this.getStylesheets().addAll(
+				this.getClass().getResource("style.css").toExternalForm());
 		initialize();
 
 		play.setOnAction(e -> {
@@ -32,7 +34,7 @@ public class MainMenu extends Scene {
 		
 		instruct.setOnAction(e -> {
 			try {
-			//instructions
+			BabyShark.setScene(new Instructions(new StackPane()));
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -59,6 +61,32 @@ public class MainMenu extends Scene {
 		play = new Button("Start");
 		instruct = new Button("How to Play");
 		quit = new Button("Quit");
+	}
+	
+	private class Instructions extends Scene {
+		
+		private VBox options;
+		Button backToMainMenu;
+		
+
+		public Instructions(StackPane root) {
+			super(root);
+			this.getStylesheets().addAll(
+					this.getClass().getResource("style.css").toExternalForm());
+			options = new VBox(20);
+			backToMainMenu = new Button("Back");
+			
+			backToMainMenu.setOnAction(e -> {
+				try {
+					BabyShark.setMenu();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			});			
+			options.getChildren().add(backToMainMenu);
+			root.getChildren().add(options);
+		}
+		
 	}
 }
 

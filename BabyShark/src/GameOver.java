@@ -31,7 +31,17 @@ public class GameOver extends Scene {
 			}
 		});
 		
-		end.getChildren().add(restart);
+		Button quit = new Button("Quit");
+		
+		quit.setOnAction(e -> {
+			try {
+				System.exit(0);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		end.getChildren().addAll(restart, quit);
 		root.getChildren().add(end);
 
 	}

@@ -18,11 +18,12 @@ import javafx.stage.Stage;
 public class Game extends Scene {
 
 	//layout objects
+	private static StackPane root;
 	private BorderPane border;
 	private HBox topMenu;
-	private Score scoreLabel = new Score(0);
-	private static StackPane root;
-	
+	private static Score scoreLabel = new Score(0);
+	MediaPlayer music = new MediaPlayer(
+			new Media(getClass().getResource("/res/bgm.mp3").toString()));
 	
 	// Game Objects
 	private LevelGenerator levelGenerator;
@@ -32,11 +33,13 @@ public class Game extends Scene {
 	private FishController fishController;
 
 	// Game Info
-	private static Levels currentLevel; // currentLevel will affect player
-	
+	private static Level currentLevel;
+	private static int score;
 	
 	ImageView background = new ImageView(
-			new Image(getClass().getResourceAsStream("/res/gamebg.png"), 800, 600, true, true));
+			new Image(
+					getClass().getResourceAsStream("/res/gamebg.png"), 
+					800, 600, true, true));
 	
 	public Game(StackPane primary) {
 		super(primary);
@@ -55,11 +58,12 @@ public class Game extends Scene {
 					BabyShark.setGameOver();
 				}
 				
+				fishController.setNumOfEnemies(currentLevel.getNumOfEnemies());
 				controller.move(); //moves the player
 				checkPlayerBounds(); // checks player
 				fishController.populateEnemies(); // populates the screen with enemies
 				fishController.updateFish(); // updates the fish
-				updateScore(); // updates the score
+				updateScoreLabel(); // updates the score
 				LevelGenerator.changeLevels(Game.getScore());
 			}
 		};
@@ -75,9 +79,7 @@ public class Game extends Scene {
 		controller.setKeys(this);
 	}
 	
-	private void updateScore() {
-		scoreLabel.setScore(player.getScore());
-	}
+
 	
 	private void loadObjects() {
 		controller = new Controller();
@@ -85,8 +87,7 @@ public class Game extends Scene {
 		player = new Player();
 		levelGenerator = new LevelGenerator();
 	}
-	
-	// change this
+
 	public static Player getPlayer() {
 		return player;
 	}
@@ -100,29 +101,35 @@ public class Game extends Scene {
 	}
 	
 	private void loadMusic() {
-		MediaPlayer music = new MediaPlayer(new Media(getClass().getResource("/res/bgm.mp3").toString()));
 		music.setAutoPlay(true);
 		music.setCycleCount(MediaPlayer.INDEFINITE);
 		music.play();
 	}
 	
-	public static Levels getCurrentLevels() {
+	public static Level getCurrentLevel() {
 		return currentLevel;
 	}
 	
-	public static void setCurrentLevels(Levels level) {
+	public static void setCurrentLevel(Level level) {
 		currentLevel = level;
 	}
 	
 	public static int getScore() {
-		return Score.getScore();
+		return score;
+	}
+	
+	public static void updateScoreLabel() {
+		scoreLabel.setScore(score);
+	}
+
+	public static void setScore(int value) {
+		score += value;
 	}
 	
 	public static void add(Node node) {
 		root.getChildren().add(node);
 	}
 	
-
 	public static void remove(Node node) {
 		root.getChildren().remove(node);
 	}

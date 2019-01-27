@@ -1,4 +1,4 @@
-public class Levels {
+public class Level {
 	
 	Integer levelNum = 0;
 	int scoreRequirement = 0;
@@ -6,7 +6,7 @@ public class Levels {
 	double playerSpeed = 0;
 	int sizeIncrease = 0;
 	
-	Levels(Integer levelNum, int score, int numOfEnemies, int sizeIncrease, double playerSpeed){
+	Level(Integer levelNum, int score, int numOfEnemies, int sizeIncrease, double playerSpeed){
 		this.levelNum = levelNum;
 		this.scoreRequirement = score;
 		this.numOfEnemies = numOfEnemies;

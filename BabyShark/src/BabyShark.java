@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -14,13 +15,13 @@ public class BabyShark extends Application {
 		try {
 			setMenu();		
 			primaryStage.show();	
-		} catch (Exception io) {
-			System.exit(-1);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	public static void setGame() {
-		game = newGame();
+		game = new Game(new StackPane());
 		primaryStage.setScene(game);
 	}
 	
@@ -32,14 +33,10 @@ public class BabyShark extends Application {
 		primaryStage.setScene(new MainMenu(new StackPane()));
 	}
 	
-	public static Game newGame() {
-		return new Game(new StackPane());
+	public static void setScene(Scene scene) {
+		primaryStage.setScene(scene);
 	}
-	
-	public static void createNewGame() {
-		game = new Game(new StackPane());
-	}
-	
+		
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
