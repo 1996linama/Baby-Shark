@@ -2,20 +2,14 @@ import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class Game extends Scene {
 
@@ -45,15 +39,11 @@ public class Game extends Scene {
 	public Game(StackPane primary) {
 		super(primary);
 		root = primary;
-		setScene();
-		play();
-	}
-	
-	private void setScene() {
 		loadObjects();
 		setGameLayout();
 		loadMusic();
 		Controller.setKeys(this);
+		loopGame();
 	}
 	
 	private void loadObjects() {
@@ -108,7 +98,7 @@ public class Game extends Scene {
 		root.getChildren().remove(node);
 	}
 	
-	private void play() {
+	private void loopGame() {
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {
@@ -145,20 +135,15 @@ public class Game extends Scene {
 	}
 	
 	private void checkPlayerBounds() {
-		double locationX = player.getLocationX();
-		double locationY = player.getLocationY();
-		if (locationX > Frame.getMaxX() + player.getWidth()) {
+		if (player.getLocationX() > Frame.getMaxX() + player.getWidth()) {
 			Controller.x = Frame.getMinX() - player.getWidth();
-		}
-		if (locationX < Frame.getMinX() - player.getWidth()) {
+		} else if (player.getLocationX() < Frame.getMinX() - player.getWidth()) {
 			Controller.x = Frame.getMaxX() + player.getWidth();
-		}
-		if (locationY > Frame.getMaxY() - player.getHeight()) {
+		} else if (player.getLocationY() > Frame.getMaxY() - player.getHeight()) {
 			Controller.y = Frame.getMaxY() - player.getHeight();
-		}
-		if (locationY < Frame.getMinY() + player.getHeight()) {
+		} else if (player.getLocationY() < Frame.getMinY() + player.getHeight()) {
 			Controller.y = Frame.getMinY() + player.getHeight();
-		}
+		} 
 	}
 
 }

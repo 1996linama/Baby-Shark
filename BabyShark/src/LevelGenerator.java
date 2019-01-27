@@ -10,7 +10,7 @@ public class LevelGenerator {
 	private Random random = new Random();
 	private int numberOfLevels = 20;
 	private int scoreRequirement = 0;
-	private int numOfEnemies = 10;
+	private int numOfEnemies = 12;
 	private double speed = 3.0;
 	private int playerSizeIncrease = 1;
 	private int minSizeIncrease = 1;
@@ -25,7 +25,7 @@ public class LevelGenerator {
 		Game.setCurrentLevel(levelMap.get(Integer.valueOf(0)));
 	}
 		
-	static HashMap<Integer, Level> levelMap= new HashMap<Integer, Level>();
+	HashMap<Integer, Level> levelMap= new HashMap<Integer, Level>();
 	static ArrayList<Level> unvisited = new ArrayList<Level>();
 	
 	private void initLevels() {
@@ -89,7 +89,7 @@ public class LevelGenerator {
 	
 	private void setNumOfEnemies() {
 		minNumOfEnemies = numOfEnemies;
-		maxNumOfEnemies += randomize(2, 0);
+		maxNumOfEnemies += randomize(3, 0);
 		numOfEnemies = randomize(maxNumOfEnemies, minNumOfEnemies);
 	}
 	

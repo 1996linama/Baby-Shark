@@ -1,4 +1,3 @@
-import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,7 +15,7 @@ public abstract class Fish extends ImageView {
 	// used for Enemies
 	public Fish(FishType type) {
 		setSpeed(type.getSpeed());
-		updateImage(new Image(getClass().getResourceAsStream(type.getImage())));
+		updateImage(type.getImage());
 	}
 
 	// used for Player
@@ -69,21 +68,13 @@ public abstract class Fish extends ImageView {
 		return this.getHeight() * this.getWidth();
 	}
 	
-	public void updateImage(Image sprite) {
+	protected void updateImage(Image sprite) {
 		this.sprite = sprite;
 		setImage(sprite);
 		this.width = sprite.getWidth();
 		this.height = sprite.getHeight();
 	}
 
-	public double getLocationX() {
-		return x;
-	}
-
-	public double getLocationY() {
-		return y;
-	}
-
-	public abstract void run();
+	protected abstract void run();
 
 }

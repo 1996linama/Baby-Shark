@@ -28,7 +28,7 @@ public class GameTest {
 	@Test
 	public void testFishDeath() {
 		if(player.canPlayerEatEnemy(target)) {
-			target.kill();
+			target.setVisible(false);
 		}
 		
 		Assert.assertEquals(false, target.isVisible());

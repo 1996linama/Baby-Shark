@@ -45,7 +45,7 @@ public class EnemyFish extends Fish {
 	}
 
 	@Override
-	public void run() {	
+	protected void run() {	
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long time) {

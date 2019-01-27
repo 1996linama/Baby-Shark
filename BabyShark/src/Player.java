@@ -1,8 +1,4 @@
-
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.scene.image.*;
 
 public class Player extends Fish {
@@ -26,16 +22,23 @@ public class Player extends Fish {
 			playerLevel = Game.getCurrentLevel();
 			return true;
 		}
-		
 		return false;
 	}
+	
+	public double getLocationX() {
+		return x;
+	}
 
+	public double getLocationY() {
+		return y;
+	}
+	
 	public boolean canPlayerEatEnemy(Fish fish) {
 		return fish.getSize() <= this.getSize();
 	}
 	
 	@Override
-	public void updateImage(Image sprite) {
+	protected void updateImage(Image sprite) {
 		setImage(sprite);
 		if(isLeveled()) {
 			this.sizeIncrease = Game.getCurrentLevel().getSizeIncrease();
@@ -46,7 +49,7 @@ public class Player extends Fish {
 	}
 	
 	@Override
-	public void run() {
+	protected void run() {
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {

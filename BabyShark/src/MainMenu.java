@@ -11,15 +11,12 @@ public class MainMenu extends Scene {
 	private BorderPane border;
 
 	private Button play, instruct, quit;
-	ImageView background = new ImageView(
-			new Image(
-					getClass().getResourceAsStream("/res/menubg.png"),
-					800, 800, true, true));
+	ImageView background = new ImageView(new Image(
+				getClass().getResourceAsStream("/res/menubg.png"),
+				800, 800, true, true));
 	
 	public MainMenu(StackPane root) {
-	
 		super(root);
-		
 		this.getStylesheets().addAll(
 				this.getClass().getResource("style.css").toExternalForm());
 		initialize();
@@ -64,11 +61,9 @@ public class MainMenu extends Scene {
 	}
 	
 	private class Instructions extends Scene {
-		
 		private VBox options;
 		Button backToMainMenu;
 		
-
 		public Instructions(StackPane root) {
 			super(root);
 			this.getStylesheets().addAll(

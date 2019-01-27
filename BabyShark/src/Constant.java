@@ -5,26 +5,6 @@ import javafx.scene.image.Image;
 
 public final class Constant {
 
-	public final static int WIDTH = 800;
-	public final static int HEIGHT = 600;
-	public final static String BS_TITLE = "Baby Shark";
-
-	public final static int getMinX() {
-		return -WIDTH / 2;
-	}
-
-	public final static int getMaxX() {
-		return WIDTH / 2;
-	}
-
-	public final static int getMinY() {
-		return -HEIGHT / 2;
-	}
-
-	public final static int getMaxY() {
-		return HEIGHT / 2;
-	}
-	
 	private final String[] bgImages = {
 			"res/dimmedbg.png",
 			"res/dimmegbg2.png",
@@ -52,9 +32,11 @@ public final class Constant {
 			"res/fish7.png",
 	};
 	
-	private final static ArrayList<String> fishImagesPath = new ArrayList<String>();
+	private final static ArrayList<String> fishImagesPath = new ArrayList<>();
 	
 	public final static ArrayList<InputStream> PLAYER_IMAGES_PATH = new ArrayList<InputStream>();
+	
+	public final static ArrayList<Image> PLAYER_IMAGES = new ArrayList<>();
 	
 	public final void initializeImages() {
 		for(int i = 0; i < fishImages.length; i++) {
@@ -62,8 +44,10 @@ public final class Constant {
 		}
 		
 		for(int i = 0; i < playerImages.length; i++) {
-			PLAYER_IMAGES_PATH.add(getClass().getResourceAsStream(playerImages[i]));
+			PLAYER_IMAGES.add(new Image(getClass().getResourceAsStream(playerImages[i])));
 		}
+		
+		
 	}
 
 }
