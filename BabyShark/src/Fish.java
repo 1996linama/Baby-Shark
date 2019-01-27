@@ -23,10 +23,6 @@ public abstract class Fish extends ImageView {
 	public Fish(double speed) {
 		this.speed = speed;
 	}
-
-	public void kill() {
-		setVisible(false);
-	}
 	
 	public void updateLocation(double x, double y) {
 		this.x = x;

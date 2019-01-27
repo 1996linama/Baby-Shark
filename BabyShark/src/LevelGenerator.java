@@ -52,7 +52,7 @@ public class LevelGenerator {
 	}
 	
 	//this changes the level based on the score
-	public static void changeLevels(int score) {	
+	public static void changeLevel(int score) {	
 		for(Level level : new ArrayList<>(unvisited)) {
 			if(score >= level.getScoreRequirement()){
 				Game.setCurrentLevel(level);

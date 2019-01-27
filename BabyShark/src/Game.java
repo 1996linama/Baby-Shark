@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,14 +24,11 @@ public class Game extends Scene {
 	private BorderPane border;
 	private HBox topMenu;
 	private static Score scoreLabel = new Score(0);
-	MediaPlayer music = new MediaPlayer(
-			new Media(getClass().getResource("/res/bgm.mp3").toString()));
 	
 	// Game Objects
 	private LevelGenerator levelGenerator;
 	private static Player player;
 	public static AnimationTimer timer;
-	private Controller controller;	
 	private FishController fishController;
 
 	// Game Info
@@ -40,6 +39,8 @@ public class Game extends Scene {
 			new Image(
 					getClass().getResourceAsStream("/res/gamebg.png"), 
 					800, 600, true, true));
+	MediaPlayer music = new MediaPlayer(
+			new Media(getClass().getResource("/res/bgm.mp3").toString()));
 	
 	public Game(StackPane primary) {
 		super(primary);
@@ -48,48 +49,17 @@ public class Game extends Scene {
 		play();
 	}
 	
-	private void play() {
-		timer = new AnimationTimer() {
-			@Override
-			public void handle(long time) {
-				
-				if(!player.isVisible()) {
-					timer.stop();
-					BabyShark.setGameOver();
-				}
-				
-				fishController.setNumOfEnemies(currentLevel.getNumOfEnemies());
-				controller.move(); //moves the player
-				checkPlayerBounds(); // checks player
-				fishController.populateEnemies(); // populates the screen with enemies
-				fishController.updateFish(); // updates the fish
-				updateScoreLabel(); // updates the score
-				LevelGenerator.changeLevels(Game.getScore());
-			}
-		};
-		
-		timer.start();
-		
-	}
-	
 	private void setScene() {
 		loadObjects();
 		setGameLayout();
 		loadMusic();
-		controller.setKeys(this);
+		Controller.setKeys(this);
 	}
 	
-
-	
 	private void loadObjects() {
-		controller = new Controller();
 		fishController = new FishController();
 		player = new Player();
 		levelGenerator = new LevelGenerator();
-	}
-
-	public static Player getPlayer() {
-		return player;
 	}
 
 	private void setGameLayout() {
@@ -104,6 +74,10 @@ public class Game extends Scene {
 		music.setAutoPlay(true);
 		music.setCycleCount(MediaPlayer.INDEFINITE);
 		music.play();
+	}
+	
+	public static Player getPlayer() {
+		return player;
 	}
 	
 	public static Level getCurrentLevel() {
@@ -134,20 +108,56 @@ public class Game extends Scene {
 		root.getChildren().remove(node);
 	}
 	
+	private void play() {
+		timer = new AnimationTimer() {
+			@Override
+			public void handle(long time) {
+				
+				for (EnemyFish fish : new ArrayList<EnemyFish>(fishController.getEnemies())) {
+					if (player.getX() != 0 && fish.isColliding(player)) {
+						if (player.canPlayerEatEnemy(fish)) {
+							setScore(fish.getFishValue());
+							updateScoreLabel(); // updates the score
+							fishController.removeFish(fish);
+							remove(fish);
+						} else {
+							BabyShark.setGameOver();
+						}
+					}
+					
+					if(!fish.isVisible()) {
+						fishController.removeFish(fish);
+						remove(fish);
+					}
+				}
+					
+				fishController.setNumOfEnemies(currentLevel.getNumOfEnemies());
+				fishController.populateEnemies(); // populates the screen with enemies
+				Controller.move(); //moves the player
+				checkPlayerBounds(); // checks player
+				updateScoreLabel(); // updates the score
+				LevelGenerator.changeLevel(score); //updateLevel
+			}
+		};
+		
+		timer.start();
+		
+	}
+	
 	private void checkPlayerBounds() {
 		double locationX = player.getLocationX();
 		double locationY = player.getLocationY();
 		if (locationX > Frame.getMaxX() + player.getWidth()) {
-			controller.x = Frame.getMinX() - player.getWidth();
+			Controller.x = Frame.getMinX() - player.getWidth();
 		}
 		if (locationX < Frame.getMinX() - player.getWidth()) {
-			controller.x = Frame.getMaxX() + player.getWidth();
+			Controller.x = Frame.getMaxX() + player.getWidth();
 		}
 		if (locationY > Frame.getMaxY() - player.getHeight()) {
-			controller.y = Frame.getMaxY() - player.getHeight();
+			Controller.y = Frame.getMaxY() - player.getHeight();
 		}
 		if (locationY < Frame.getMinY() + player.getHeight()) {
-			controller.y = Frame.getMinY() + player.getHeight();
+			Controller.y = Frame.getMinY() + player.getHeight();
 		}
 	}
 

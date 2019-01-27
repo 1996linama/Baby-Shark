@@ -6,14 +6,20 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class Controller {
-	public boolean moveUp, moveDown, moveRight, moveLeft;
+	public static boolean moveUp;
 
-	double x = 0;
-	double y = 0;
+	public static boolean moveDown;
+
+	public static boolean moveRight;
+
+	public static boolean moveLeft;
+
+	static double x = 0;
+	static double y = 0;
 	
 	public Controller() {}
 	
-	public void move() {
+	public static void move() {
 		if (moveUp) {
 			y -= Game.getPlayer().getSpeed();
 		}
@@ -33,7 +39,7 @@ public class Controller {
 	}
 
 	/* Handles key movements for the player, may move this to Game.java */
-	public void setKeys(Scene scene) {
+	public static void setKeys(Scene scene) {
 		EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent key) {
 				switch (key.getCode()) {

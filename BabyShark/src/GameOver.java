@@ -10,9 +10,9 @@ public class GameOver extends Scene {
 	private StackPane root;
 	private Label gameOver;
 	
-	public GameOver(StackPane primary) {
-		super(primary);
-		root = primary;
+	public GameOver(StackPane root) {
+		super(root);
+		this.root = root;
 		setGameOverLayout();
 	}
 

@@ -7,12 +7,6 @@ public class EnemyFish extends Fish {
 	private static Random random = new Random();
 	boolean isReversed;	
 	int fishValue;
-;
-	
-	public static EnemyFish createFish() {
-		int rand = random.nextInt(FishType.values().length);
-		return new EnemyFish(FishType.values()[rand]);
-	}
 
 	public EnemyFish(FishType type) {
 		super(type);
@@ -25,7 +19,6 @@ public class EnemyFish extends Fish {
 		}
 		updateLocation(x, y);
 		run();
-
 	}
 	
 	public int getFishValue() {
@@ -47,8 +40,8 @@ public class EnemyFish extends Fish {
 	@Override
 	public void flipLeft() {
 		this.setScaleX(-1);
-		this.speed = -this.speed;
-		this.x = 400 + getWidth() + random.nextInt(200);
+		speed = -speed;
+		x = 400 + getWidth() + random.nextInt(200);
 	}
 
 	@Override
@@ -59,7 +52,7 @@ public class EnemyFish extends Fish {
 				updateLocation(x, y);
 				x += getSpeed();
 				if(isOffscreen(x)) {
-					kill();
+					setVisible(false);
 				}
 			}
 		};
