@@ -19,3 +19,20 @@ Created by Lina Ma (@1996linama), inspired by one of her many favorite games she
 Currently ongoing.<p>
 
 ## <b> Features </b>
+* Automatic Enemy Generator
+* Randomized Levels
+* Screen Boundaries
+* Player Sprite Animation
+
+### Upcoming Implementation
+* More enemies with different behaviors
+
+## <b> Game Development </b>
+Shark and Orca designed by Lina Ma (@1996linama)
+Other fish sprites provided by Kenny Assets (https://www.kenney.nl/)
+
+#### Tools
+Eclipse, Photoshop, Illustrator
+
+#### Platform
+Java, JavaFx
