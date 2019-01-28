@@ -119,7 +119,7 @@ public class Game extends Scene {
 				fishController.setNumOfEnemies(currentLevel.getNumOfEnemies());
 				fishController.populateEnemies(); // populates the screen with enemies
 				updatePlayer(); // updates Player's movements
-				LevelGenerator.changeLevel(score); //updateLevel
+				LevelGenerator.changeLevel(); //updateLevel
 			}
 		};
 		

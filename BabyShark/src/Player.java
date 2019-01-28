@@ -5,15 +5,14 @@ public class Player extends Fish {
 	
 	private String[] playerSprites = {"res/shark1.png","res/shark2.png","res/shark3.png", "res/shark4.png", "res/shark3.png", "res/shark2.png", "res/shark1.png"}; 
 	private int frame = 0;
-	private int sizeIncrease = 0;
 	private Level playerLevel = null;
 	private Image playerSprite = new Image(getClass().getResourceAsStream("/res/shark.png"), 60, 40, true, true);
 	
 	public Player() {
 		super(4);
 		updateImage(playerSprite);
-		this.width = playerSprite.getWidth();
-		this.height = playerSprite.getHeight();
+		width = playerSprite.getWidth();
+		height = playerSprite.getHeight();
 		run();
 	}
 	
@@ -23,6 +22,10 @@ public class Player extends Fish {
 			return true;
 		}
 		return false;
+	}
+	
+	private int getSizeIncrease() {
+		return (isLeveled())? Game.getCurrentLevel().getSizeIncrease():0;
 	}
 	
 	public double getLocationX() {
@@ -40,12 +43,9 @@ public class Player extends Fish {
 	@Override
 	protected void updateImage(Image sprite) {
 		setImage(sprite);
-		if(isLeveled()) {
-			this.sizeIncrease = Game.getCurrentLevel().getSizeIncrease();
-		}
-		this.width = this.width + sizeIncrease;
-		this.height = this.height + sizeIncrease;
-		this.sizeIncrease = 0;
+		int increase = getSizeIncrease();
+		width += increase;
+		height += increase;
 	}
 	
 	@Override

@@ -15,8 +15,8 @@ public class LevelGenerator {
 	private int playerSizeIncrease = 1;
 	private int minSizeIncrease = 1;
 	private int maxSizeIncrease = 3;	
-	private int minScoreRequirement = 20;
-	private int maxScoreRequirement = 50;
+	private int minScoreRequirement = 10;
+	private int maxScoreRequirement = 15;
 	private int minNumOfEnemies = 10;
 	private int maxNumOfEnemies = 15;
 
@@ -52,11 +52,12 @@ public class LevelGenerator {
 	}
 	
 	//this changes the level based on the score
-	public static void changeLevel(int score) {	
+	public static void changeLevel() {	
 		for(Level level : new ArrayList<>(unvisited)) {
-			if(score >= level.getScoreRequirement()){
+			if(Game.getScore() >= level.getScoreRequirement()){
 				Game.setCurrentLevel(level);
 				unvisited.remove(level); 
+				return;
 			}
 		}
 	}
@@ -68,7 +69,7 @@ public class LevelGenerator {
 	private void setScoreRequirement() {
 		scoreRequirement = randomize(maxScoreRequirement, minScoreRequirement);
 		minScoreRequirement = scoreRequirement;
-		maxScoreRequirement += 50;
+		maxScoreRequirement += 20;
 	}
 	
 	private void setSizeIncrease() {
