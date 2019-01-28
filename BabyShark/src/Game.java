@@ -30,8 +30,7 @@ public class Game extends Scene {
 	private static int score;
 	
 	ImageView background = new ImageView(
-			new Image(
-					getClass().getResourceAsStream("/res/gamebg.png"), 
+			new Image(getClass().getResourceAsStream("/res/gamebg.png"), 
 					800, 600, true, true));
 	MediaPlayer music = new MediaPlayer(
 			new Media(getClass().getResource("/res/bgm.mp3").toString()));
@@ -88,44 +87,38 @@ public class Game extends Scene {
 
 	public static void setScore(int value) {
 		score += value;
+		updateScoreLabel();
 	}
 	
 	public static void add(Node node) {
 		root.getChildren().add(node);
 	}
 	
-	public static void remove(Node node) {
-		root.getChildren().remove(node);
+	public void remove(Fish fish) {
+		fishController.removeFish(fish);
+		root.getChildren().remove(fish);
 	}
 	
 	private void loopGame() {
 		timer = new AnimationTimer() {
 			@Override
-			public void handle(long time) {
-				
+			public void handle(long time) {	
 				for (EnemyFish fish : new ArrayList<EnemyFish>(fishController.getEnemies())) {
 					if (player.getX() != 0 && fish.isColliding(player)) {
 						if (player.canPlayerEatEnemy(fish)) {
 							setScore(fish.getFishValue());
-							updateScoreLabel(); // updates the score
-							fishController.removeFish(fish);
 							remove(fish);
 						} else {
 							BabyShark.setGameOver();
 						}
 					}
-					
 					if(!fish.isVisible()) {
-						fishController.removeFish(fish);
 						remove(fish);
 					}
 				}
-					
 				fishController.setNumOfEnemies(currentLevel.getNumOfEnemies());
 				fishController.populateEnemies(); // populates the screen with enemies
-				Controller.move(); //moves the player
-				checkPlayerBounds(); // checks player
-				updateScoreLabel(); // updates the score
+				updatePlayer(); // updates Player's movements
 				LevelGenerator.changeLevel(score); //updateLevel
 			}
 		};
@@ -134,7 +127,8 @@ public class Game extends Scene {
 		
 	}
 	
-	private void checkPlayerBounds() {
+	private void updatePlayer() {
+		Controller.move();
 		if (player.getLocationX() > Frame.getMaxX() + player.getWidth()) {
 			Controller.x = Frame.getMinX() - player.getWidth();
 		} else if (player.getLocationX() < Frame.getMinX() - player.getWidth()) {
