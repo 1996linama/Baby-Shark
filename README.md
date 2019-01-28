@@ -28,8 +28,7 @@ Currently ongoing.<p>
 * More enemies with different behaviors
 
 ## <b> Game Development </b>
-<img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/shark1.png" width="40" height="25" />
-<img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/orca1.png" width="40" height="25" />
+<img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/shark1.png" width="40" height="25" /> <img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/orca1.png" width="40" height="25" /> <br>
 Shark and Orca designed by Lina Ma (@1996linama)<p>
 Other fish sprites provided by Kenny Assets (https://www.kenney.nl/)
 
