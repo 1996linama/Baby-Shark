@@ -23,14 +23,16 @@ Currently ongoing.<p>
 * Randomized Levels
 * Screen Boundaries
 * Player Sprite Animation
-
+* Background and Sound Effects 
+<p>
 ### Upcoming Implementation
 * More enemies with different behaviors
 
 ## <b> Game Development </b>
 <img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/shark1.png" width="40" height="25" /> <img src="https://github.com/1996linama/BabyShark/blob/master/BabyShark/src/res/orca1.png" width="40" height="25" /> <br>
 Shark and Orca designed by Lina Ma (@1996linama)<p>
-Other fish sprites provided by Kenny Assets (https://www.kenney.nl/)
+Other fish sprites from Kenny Assets (https://www.kenney.nl/)<p>
+Sound Effects from (https://soundbible.com)  
 
 #### Tools
 Eclipse, Photoshop, Illustrator
