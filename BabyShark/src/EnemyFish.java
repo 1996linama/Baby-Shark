@@ -5,12 +5,11 @@ import javafx.animation.AnimationTimer;
 public class EnemyFish extends Fish {
 	
 	private static Random random = new Random();
-	boolean isReversed;	
+	boolean isReversed = random.nextBoolean();	
 	int fishValue;
 
 	public EnemyFish(FishType type) {
 		super(type);
-		isReversed = random.nextBoolean();
 		fishValue = type.getValue();
 		x = -400 - getWidth() - random.nextInt(200); // out of the frame
 		y = random.nextInt(800) - 400;

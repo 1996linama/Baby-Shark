@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -34,6 +35,8 @@ public class Game extends Scene {
 					800, 600, true, true));
 	MediaPlayer music = new MediaPlayer(
 			new Media(getClass().getResource("/res/bgm.mp3").toString()));
+	AudioClip chompEffect = new AudioClip(
+			getClass().getResource("/res/bite.mp3").toString());
 	
 	public Game(StackPane primary) {
 		super(primary);
@@ -62,6 +65,7 @@ public class Game extends Scene {
 	private void loadMusic() {
 		music.setAutoPlay(true);
 		music.setCycleCount(MediaPlayer.INDEFINITE);
+		music.setVolume(music.getVolume()/2);
 		music.play();
 	}
 	
@@ -106,6 +110,7 @@ public class Game extends Scene {
 				for (EnemyFish fish : new ArrayList<EnemyFish>(fishController.getEnemies())) {
 					if (player.getX() != 0 && fish.isColliding(player)) {
 						if (player.canPlayerEatEnemy(fish)) {
+							chompEffect.play();
 							setScore(fish.getFishValue());
 							remove(fish);
 						} else {

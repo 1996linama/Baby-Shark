@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 
 public class MainMenu extends Scene {
 	
@@ -14,6 +15,8 @@ public class MainMenu extends Scene {
 	ImageView background = new ImageView(new Image(
 				getClass().getResourceAsStream("/res/menubg.png"),
 				800, 800, true, true));
+	AudioClip clickEffect = new AudioClip(
+			getClass().getResource("/res/button.mp3").toString());
 	
 	public MainMenu(StackPane root) {
 		super(root);
@@ -23,6 +26,7 @@ public class MainMenu extends Scene {
 
 		play.setOnAction(e -> {
 			try {
+				clickEffect.play();
 				BabyShark.setGame();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -31,6 +35,7 @@ public class MainMenu extends Scene {
 		
 		instruct.setOnAction(e -> {
 			try {
+			clickEffect.play();
 			BabyShark.setScene(new Instructions(new StackPane()));
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -39,6 +44,7 @@ public class MainMenu extends Scene {
 	
 		quit.setOnAction(e -> {
 			try {
+				clickEffect.play();
 				System.exit(0);
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -73,6 +79,7 @@ public class MainMenu extends Scene {
 			
 			backToMainMenu.setOnAction(e -> {
 				try {
+					clickEffect.play();
 					BabyShark.setMenu();
 				} catch (Exception e1) {
 					e1.printStackTrace();
