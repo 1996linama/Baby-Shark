@@ -24,7 +24,7 @@ Currently ongoing.<p>
 * Screen Boundaries
 * Player Sprite Animation
 * Background and Sound Effects 
-<p>
+  
 ### Upcoming Implementation
 * More enemies with different behaviors
 
