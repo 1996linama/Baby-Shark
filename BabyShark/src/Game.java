@@ -30,9 +30,6 @@ public class Game extends Scene {
 	private static Level currentLevel;
 	private static int score;
 	
-	ImageView background = new ImageView(
-			new Image(getClass().getResourceAsStream("/res/gamebg.png"), 
-					800, 600, true, true));
 	MediaPlayer music = new MediaPlayer(
 			new Media(getClass().getResource("/res/bgm.mp3").toString()));
 	AudioClip chompEffect = new AudioClip(
@@ -59,7 +56,9 @@ public class Game extends Scene {
 		topMenu = new HBox();
 		topMenu.getChildren().add(scoreLabel);
 		border.setTop(topMenu);
-		root.getChildren().addAll(background, player, topMenu);	
+		getStylesheets().add("/style.css");
+		root.setId("game");
+		root.getChildren().addAll(player, topMenu);	
 	}
 	
 	private void loadMusic() {

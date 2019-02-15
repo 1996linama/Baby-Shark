@@ -12,9 +12,7 @@ public class MainMenu extends Scene {
 	private BorderPane border;
 
 	private Button play, instruct, quit;
-	ImageView background = new ImageView(new Image(
-				getClass().getResourceAsStream("/res/menubg.png"),
-				800, 800, true, true));
+
 	AudioClip clickEffect = new AudioClip(
 			getClass().getResource("/res/button.mp3").toString());
 	
@@ -22,6 +20,7 @@ public class MainMenu extends Scene {
 		super(root);
 		this.getStylesheets().addAll(
 				this.getClass().getResource("style.css").toExternalForm());
+		root.setId("menu");
 		initialize();
 
 		play.setOnAction(e -> {
@@ -53,7 +52,7 @@ public class MainMenu extends Scene {
 		
 		menuOptions.getChildren().addAll(play, instruct, quit);
 		border.setCenter(menuOptions);
-		root.getChildren().addAll(background, border);
+		root.getChildren().addAll(border);
 		
 	}
 	
